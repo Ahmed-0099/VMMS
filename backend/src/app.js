@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 
+const authRoutes = require("./routes/authRoutes");
 const healthRoutes = require("./routes/healthRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 
@@ -17,6 +18,7 @@ app.get("/", (req, res) => {
   });
 });
 
+app.use("/api/auth", authRoutes);
 app.use("/api/health", healthRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 
@@ -27,9 +29,14 @@ app.use((req, res) => {
 });
 
 app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).json({
-    message: "Internal server error",
+  const statusCode = err.statusCode || 500;
+
+  if (statusCode >= 500) {
+    console.error(err);
+  }
+
+  res.status(statusCode).json({
+    message: statusCode === 500 ? "Internal server error" : err.message,
   });
 });
 
