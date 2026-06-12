@@ -1,4 +1,7 @@
 node_modules/
+.npm-cache/
+/package.json
+/package-lock.json
 .env
 .env.local
 dist/
@@ -6,3 +9,5 @@ build/
 coverage/
 .DS_Store
 *.log
+*.pid
+generated/

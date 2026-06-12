@@ -1,0 +1,60 @@
+.app-shell {
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+.sidebar {
+  width: 280px;
+  background: #ffffff;
+  border-right: 1px solid #dee2e6;
+}
+
+.sidebar-title {
+  color: #1d3557;
+  font-weight: 700;
+}
+
+.sidebar-link {
+  color: #495057;
+  border-radius: 6px;
+  padding: 0.625rem 0.75rem;
+  text-decoration: none;
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+  color: #0f5132;
+  background: #d1e7dd;
+}
+
+.content-area {
+  min-width: 0;
+}
+
+.page-title {
+  color: #1d3557;
+}
+
+.summary-card {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.summary-value {
+  color: #0f5132;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+@media (max-width: 992px) {
+  .app-shell {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: 0;
+    border-bottom: 1px solid #dee2e6;
+  }
+}
