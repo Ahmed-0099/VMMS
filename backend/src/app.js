@@ -7,6 +7,7 @@ const dashboardRoutes = require("./routes/dashboardRoutes");
 const vehicleRoutes = require("./routes/vehicleRoutes");
 const driverRoutes = require("./routes/driverRoutes");
 const assignmentRoutes = require("./routes/assignmentRoutes");
+const workOrderRoutes = require("./routes/workOrderRoutes");
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/vehicles", vehicleRoutes);
 app.use("/api/drivers", driverRoutes);
 app.use("/api/assignments", assignmentRoutes);
+app.use("/api/work-orders", workOrderRoutes);
 
 app.use((req, res) => {
   res.status(404).json({

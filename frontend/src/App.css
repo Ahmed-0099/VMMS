@@ -354,13 +354,35 @@
   margin-bottom: 1rem;
 }
 
+.work-order-toolbar {
+  display: grid;
+  grid-template-columns: minmax(180px, 260px);
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.work-order-status-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.work-order-status-tabs .btn,
+.work-order-status-actions .btn {
+  border-radius: 6px;
+  font-weight: 700;
+}
+
 .vehicle-search {
   min-width: 0;
 }
 
 .vehicle-form-grid,
 .driver-form-grid,
-.assignment-form-grid {
+.assignment-form-grid,
+.work-order-form-grid,
+.work-order-progress-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
@@ -379,12 +401,24 @@
   resize: vertical;
 }
 
+.work-order-form-wide {
+  grid-column: 1 / -1;
+}
+
+.work-order-form textarea {
+  min-height: 92px;
+  resize: vertical;
+}
+
 .vehicle-form .form-label,
 .vehicle-toolbar .form-label,
 .driver-form .form-label,
 .driver-toolbar .form-label,
 .assignment-form .form-label,
-.assignment-toolbar .form-label {
+.assignment-toolbar .form-label,
+.work-order-form .form-label,
+.work-order-toolbar .form-label,
+.work-order-progress-grid .form-label {
   color: #123047;
   font-size: 0.9rem;
   font-weight: 800;
@@ -401,7 +435,13 @@
 .assignment-form .form-control,
 .assignment-form .form-select,
 .assignment-toolbar .form-control,
-.assignment-toolbar .form-select {
+.assignment-toolbar .form-select,
+.work-order-form .form-control,
+.work-order-form .form-select,
+.work-order-toolbar .form-control,
+.work-order-toolbar .form-select,
+.work-order-progress-grid .form-control,
+.work-order-progress-grid .form-select {
   border-color: #d9e2ec;
   border-radius: 8px;
 }
@@ -417,7 +457,13 @@
 .assignment-form .form-control:focus,
 .assignment-form .form-select:focus,
 .assignment-toolbar .form-control:focus,
-.assignment-toolbar .form-select:focus {
+.assignment-toolbar .form-select:focus,
+.work-order-form .form-control:focus,
+.work-order-form .form-select:focus,
+.work-order-toolbar .form-control:focus,
+.work-order-toolbar .form-select:focus,
+.work-order-progress-grid .form-control:focus,
+.work-order-progress-grid .form-select:focus {
   border-color: #0f5132;
   box-shadow: 0 0 0 0.2rem rgba(15, 81, 50, 0.12);
 }
@@ -449,13 +495,15 @@
 }
 
 .driver-table,
-.assignment-table {
+.assignment-table,
+.work-order-table {
   min-width: 1040px;
 }
 
 .vehicle-table thead th,
 .driver-table thead th,
-.assignment-table thead th {
+.assignment-table thead th,
+.work-order-table thead th {
   color: #607083;
   border-bottom-color: #dfe7ef;
   font-size: 0.78rem;
@@ -465,7 +513,8 @@
 
 .vehicle-table tbody td,
 .driver-table tbody td,
-.assignment-table tbody td {
+.assignment-table tbody td,
+.work-order-table tbody td {
   color: #344054;
   border-color: #eef2f6;
   vertical-align: middle;
@@ -473,8 +522,58 @@
 
 .vehicle-table tbody tr:hover,
 .driver-table tbody tr:hover,
-.assignment-table tbody tr:hover {
+.assignment-table tbody tr:hover,
+.work-order-table tbody tr:hover {
   background: #f8fbfa;
+}
+
+.work-order-actions {
+  align-items: center;
+}
+
+.work-order-status-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+
+.work-order-due {
+  font-weight: 800;
+}
+
+.work-order-due-overdue {
+  color: #b42318;
+}
+
+.work-order-due-soon {
+  color: #9a5b00;
+}
+
+.work-order-detail-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.work-order-detail-top h3 {
+  margin: 0.2rem 0 0;
+  color: #123047;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.work-order-badge-stack {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.work-order-detail-wide {
+  grid-column: span 2;
 }
 
 .assignment-section-heading {
@@ -1048,19 +1147,24 @@
   .vehicle-toolbar,
   .driver-toolbar,
   .assignment-toolbar,
+  .work-order-toolbar,
   .vehicle-form-grid,
   .driver-form-grid,
   .assignment-form-grid,
+  .work-order-form-grid,
+  .work-order-progress-grid,
   .vehicle-detail-grid,
   .vehicle-count-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .driver-form-wide {
+  .driver-form-wide,
+  .work-order-form-wide {
     grid-column: 1 / -1;
   }
 
-  .driver-detail-wide {
+  .driver-detail-wide,
+  .work-order-detail-wide {
     grid-column: span 2;
   }
 
@@ -1105,9 +1209,12 @@
   .vehicle-toolbar,
   .driver-toolbar,
   .assignment-toolbar,
+  .work-order-toolbar,
   .vehicle-form-grid,
   .driver-form-grid,
   .assignment-form-grid,
+  .work-order-form-grid,
+  .work-order-progress-grid,
   .vehicle-detail-grid,
   .vehicle-count-grid {
     grid-template-columns: 1fr;
@@ -1127,11 +1234,14 @@
   }
 
   .driver-form-wide,
-  .driver-detail-wide {
+  .driver-detail-wide,
+  .work-order-form-wide,
+  .work-order-detail-wide {
     grid-column: 1 / -1;
   }
 
-  .vehicle-detail-top {
+  .vehicle-detail-top,
+  .work-order-detail-top {
     align-items: flex-start;
     flex-direction: column;
   }
