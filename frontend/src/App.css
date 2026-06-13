@@ -389,9 +389,21 @@
   margin-bottom: 1.25rem;
 }
 
+.maintenance-summary-grid {
+  margin-bottom: 1.25rem;
+}
+
 .fault-report-toolbar {
   display: grid;
   grid-template-columns: repeat(4, minmax(160px, 1fr)) auto;
+  align-items: end;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.maintenance-schedule-toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.2fr) minmax(160px, 0.6fr) minmax(140px, 0.45fr) auto;
   align-items: end;
   gap: 0.85rem;
   margin-bottom: 1rem;
@@ -407,6 +419,37 @@
   border-radius: 6px;
   font-weight: 700;
   white-space: nowrap;
+}
+
+.maintenance-schedule-toolbar-action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.maintenance-schedule-toolbar-action .btn {
+  width: 100%;
+  border-radius: 6px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.maintenance-check {
+  display: flex;
+  align-items: center;
+  min-height: 38px;
+  gap: 0.5rem;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid #d9e2ec;
+  border-radius: 8px;
+  color: #123047;
+  background: #ffffff;
+  font-weight: 700;
+}
+
+.maintenance-check input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: #0f5132;
 }
 
 .compliance-document-toolbar-action {
@@ -457,6 +500,8 @@
 .fault-convert-grid,
 .fault-report-form-grid,
 .fuel-log-form-grid,
+.maintenance-schedule-form-grid,
+.maintenance-work-order-grid,
 .work-order-form-grid,
 .work-order-progress-grid {
   display: grid;
@@ -552,7 +597,9 @@
 }
 
 .fault-report-form-wide,
-.fault-convert-wide {
+.fault-convert-wide,
+.maintenance-schedule-form-wide,
+.maintenance-work-order-wide {
   grid-column: 1 / -1;
 }
 
@@ -562,7 +609,9 @@
 }
 
 .fault-report-form textarea,
-.fault-convert-form textarea {
+.fault-convert-form textarea,
+.maintenance-schedule-form textarea,
+.maintenance-work-order-form textarea {
   min-height: 92px;
   resize: vertical;
 }
@@ -580,6 +629,9 @@
 .fault-report-toolbar .form-label,
 .fuel-log-form .form-label,
 .fuel-log-toolbar .form-label,
+.maintenance-schedule-form .form-label,
+.maintenance-schedule-toolbar .form-label,
+.maintenance-work-order-form .form-label,
 .work-order-form .form-label,
 .work-order-toolbar .form-label,
 .work-order-progress-grid .form-label {
@@ -614,6 +666,12 @@
 .fuel-log-form .form-select,
 .fuel-log-toolbar .form-control,
 .fuel-log-toolbar .form-select,
+.maintenance-schedule-form .form-control,
+.maintenance-schedule-form .form-select,
+.maintenance-schedule-toolbar .form-control,
+.maintenance-schedule-toolbar .form-select,
+.maintenance-work-order-form .form-control,
+.maintenance-work-order-form .form-select,
 .work-order-form .form-control,
 .work-order-form .form-select,
 .work-order-toolbar .form-control,
@@ -650,6 +708,12 @@
 .fuel-log-form .form-select:focus,
 .fuel-log-toolbar .form-control:focus,
 .fuel-log-toolbar .form-select:focus,
+.maintenance-schedule-form .form-control:focus,
+.maintenance-schedule-form .form-select:focus,
+.maintenance-schedule-toolbar .form-control:focus,
+.maintenance-schedule-toolbar .form-select:focus,
+.maintenance-work-order-form .form-control:focus,
+.maintenance-work-order-form .form-select:focus,
 .work-order-form .form-control:focus,
 .work-order-form .form-select:focus,
 .work-order-toolbar .form-control:focus,
@@ -691,6 +755,7 @@
 .compliance-document-table,
 .fault-report-table,
 .fuel-log-table,
+.maintenance-schedule-table,
 .work-order-table {
   min-width: 1040px;
 }
@@ -698,6 +763,7 @@
 .compliance-document-table,
 .fault-report-table,
 .fuel-log-table,
+.maintenance-schedule-table,
 .work-order-table {
   width: max-content;
   min-width: 100%;
@@ -709,6 +775,7 @@
 .compliance-document-table thead th,
 .fault-report-table thead th,
 .fuel-log-table thead th,
+.maintenance-schedule-table thead th,
 .work-order-table thead th {
   color: #607083;
   border-bottom-color: #dfe7ef;
@@ -723,6 +790,7 @@
 .compliance-document-table tbody td,
 .fault-report-table tbody td,
 .fuel-log-table tbody td,
+.maintenance-schedule-table tbody td,
 .work-order-table tbody td {
   color: #344054;
   border-color: #eef2f6;
@@ -735,12 +803,39 @@
 .compliance-document-table tbody tr:hover,
 .fault-report-table tbody tr:hover,
 .fuel-log-table tbody tr:hover,
+.maintenance-schedule-table tbody tr:hover,
 .work-order-table tbody tr:hover {
   background: #f8fbfa;
 }
 
 .fault-row-high {
   background: #fff8f8;
+}
+
+.maintenance-row-warning {
+  background: #fffcf4;
+}
+
+.maintenance-row-danger {
+  background: #fff8f8;
+}
+
+.maintenance-row-completed {
+  background: #f8fafc;
+}
+
+.maintenance-due-value {
+  color: #123047;
+  font-weight: 800;
+}
+
+.maintenance-notes {
+  display: inline-block;
+  max-width: 280px;
+  color: #344054;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 
 .fault-report-description {
@@ -757,6 +852,10 @@
 }
 
 .fault-convert-panel {
+  border-color: #d8e7df;
+}
+
+.maintenance-work-order-panel {
   border-color: #d8e7df;
 }
 
@@ -781,6 +880,38 @@
   margin-top: 0.3rem;
   color: #123047;
   font-weight: 800;
+}
+
+.maintenance-work-order-context {
+  margin-bottom: 1rem;
+  padding: 0.95rem;
+  border: 1px solid #e7edf3;
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(15, 81, 50, 0.08), rgba(18, 48, 71, 0.03)),
+    #fbfefd;
+}
+
+.maintenance-work-order-context span {
+  display: block;
+  color: #0f5132;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.maintenance-work-order-context strong {
+  display: block;
+  margin-top: 0.3rem;
+  color: #123047;
+  font-weight: 800;
+}
+
+.maintenance-work-order-context small {
+  display: block;
+  margin-top: 0.25rem;
+  color: #657789;
+  font-weight: 700;
 }
 
 .compliance-row-warning {
@@ -832,6 +963,12 @@
 }
 
 .fuel-log-actions {
+  flex-wrap: nowrap;
+  min-width: max-content;
+  white-space: nowrap;
+}
+
+.maintenance-schedule-actions {
   flex-wrap: nowrap;
   min-width: max-content;
   white-space: nowrap;
@@ -1474,6 +1611,7 @@
   .compliance-document-toolbar,
   .fault-report-toolbar,
   .fuel-log-toolbar,
+  .maintenance-schedule-toolbar,
   .work-order-toolbar,
   .vehicle-form-grid,
   .driver-form-grid,
@@ -1482,6 +1620,8 @@
   .fault-convert-grid,
   .fault-report-form-grid,
   .fuel-log-form-grid,
+  .maintenance-schedule-form-grid,
+  .maintenance-work-order-grid,
   .work-order-form-grid,
   .work-order-progress-grid,
   .vehicle-detail-grid,
@@ -1501,6 +1641,10 @@
     justify-content: flex-start;
   }
 
+  .maintenance-schedule-toolbar-action {
+    justify-content: flex-start;
+  }
+
   .fault-report-assigned-strip,
   .fuel-log-assigned-strip {
     grid-template-columns: 1fr;
@@ -1509,6 +1653,8 @@
   .driver-form-wide,
   .fault-convert-wide,
   .fault-report-form-wide,
+  .maintenance-schedule-form-wide,
+  .maintenance-work-order-wide,
   .work-order-form-wide {
     grid-column: 1 / -1;
   }
@@ -1562,6 +1708,7 @@
   .compliance-document-toolbar,
   .fault-report-toolbar,
   .fuel-log-toolbar,
+  .maintenance-schedule-toolbar,
   .work-order-toolbar,
   .vehicle-form-grid,
   .driver-form-grid,
@@ -1570,6 +1717,8 @@
   .fault-convert-grid,
   .fault-report-form-grid,
   .fuel-log-form-grid,
+  .maintenance-schedule-form-grid,
+  .maintenance-work-order-grid,
   .work-order-form-grid,
   .work-order-progress-grid,
   .vehicle-detail-grid,
@@ -1594,6 +1743,8 @@
   .driver-detail-wide,
   .fault-convert-wide,
   .fault-report-form-wide,
+  .maintenance-schedule-form-wide,
+  .maintenance-work-order-wide,
   .work-order-form-wide,
   .work-order-detail-wide {
     grid-column: 1 / -1;

@@ -10,6 +10,7 @@ import { Drivers } from './pages/Drivers'
 import { FaultReports } from './pages/FaultReports'
 import { FuelLogs } from './pages/FuelLogs'
 import { Login } from './pages/Login'
+import { MaintenanceSchedules } from './pages/MaintenanceSchedules'
 import { MyVehicle } from './pages/MyVehicle'
 import { PlaceholderPage } from './pages/PlaceholderPage'
 import { Register } from './pages/Register'
@@ -21,7 +22,6 @@ import type { RoleName } from './types/auth'
 import './App.css'
 
 const pages = [
-  { path: 'maintenance-schedules', title: 'Maintenance Schedules', description: 'Preventive maintenance due dates and odometer triggers.', roles: ['ADMIN'] },
   { path: 'reports', title: 'Reports', description: 'Vehicle, fuel, work order, and compliance summaries.', roles: ['ADMIN'] },
   { path: 'settings', title: 'Settings', description: 'Basic account and project settings.', roles: ['ADMIN', 'TECHNICIAN', 'DRIVER'] },
 ] satisfies Array<{
@@ -135,6 +135,14 @@ function App() {
             element={
               <RoleGuard allowedRoles={['ADMIN']} fallback={<AccessDenied />}>
                 <ComplianceDocuments />
+              </RoleGuard>
+            }
+          />
+          <Route
+            path="maintenance-schedules"
+            element={
+              <RoleGuard allowedRoles={['ADMIN']} fallback={<AccessDenied />}>
+                <MaintenanceSchedules />
               </RoleGuard>
             }
           />

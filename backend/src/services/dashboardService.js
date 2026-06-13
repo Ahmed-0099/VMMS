@@ -1,4 +1,5 @@
 const prisma = require("../config/prisma");
+const { getScheduleStatus } = require("../utils/maintenanceStatus");
 
 const OPEN_WORK_ORDER_STATUSES = ["OPEN", "IN_PROGRESS", "PENDING_PARTS"];
 const COMPLETED_WORK_ORDER_STATUSES = ["COMPLETED", "CLOSED"];
@@ -34,7 +35,7 @@ async function getAdminDashboardSummary() {
     fuelCostResult,
     expiringDocuments,
     newFaultReports,
-    dueMaintenanceSchedules,
+    maintenanceScheduleAttentionList,
   ] = await Promise.all([
     prisma.vehicle.count(),
     prisma.vehicle.count({ where: { status: "ACTIVE" } }),
@@ -60,21 +61,30 @@ async function getAdminDashboardSummary() {
       },
     }),
     prisma.faultReport.count({ where: { status: "NEW" } }),
-    prisma.maintenanceSchedule.count({
+    prisma.maintenanceSchedule.findMany({
       where: {
         status: { in: ACTIVE_MAINTENANCE_STATUSES },
-        OR: [
-          { status: "DUE" },
-          {
-            nextDueDate: {
-              not: null,
-              lte: maintenanceAttentionDate,
-            },
+      },
+      include: {
+        vehicle: {
+          select: {
+            currentOdometer: true,
           },
-        ],
+        },
       },
     }),
   ]);
+
+  const dueMaintenanceSchedules = maintenanceScheduleAttentionList.filter((schedule) => {
+    if (schedule.status === "DUE" || getScheduleStatus(schedule, schedule.vehicle) === "DUE") {
+      return true;
+    }
+
+    return (
+      schedule.nextDueDate !== null &&
+      schedule.nextDueDate <= maintenanceAttentionDate
+    );
+  }).length;
 
   return {
     role: "ADMIN",
