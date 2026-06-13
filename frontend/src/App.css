@@ -1,6 +1,6 @@
 .app-shell {
   display: flex;
-  align-items: stretch;
+  align-items: flex-start;
   min-height: 100vh;
   background:
     linear-gradient(180deg, rgba(32, 115, 92, 0.06), rgba(32, 115, 92, 0)),
@@ -13,10 +13,12 @@
   display: flex;
   flex-direction: column;
   width: 288px;
-  min-height: 100vh;
-  height: auto;
+  height: 100vh;
+  min-height: 0;
   padding: 1.25rem;
   padding-bottom: 1.75rem;
+  flex: 0 0 288px;
+  overflow-y: auto;
   background: #ffffff;
   border-right: 1px solid #dfe7ef;
   box-sizing: border-box;
@@ -99,6 +101,7 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+  align-self: stretch;
   min-width: 0;
   padding: 1.5rem;
 }
@@ -393,6 +396,10 @@
   margin-bottom: 1.25rem;
 }
 
+.report-summary-grid {
+  margin-bottom: 1.25rem;
+}
+
 .fault-report-toolbar {
   display: grid;
   grid-template-columns: repeat(4, minmax(160px, 1fr)) auto;
@@ -407,6 +414,68 @@
   align-items: end;
   gap: 0.85rem;
   margin-bottom: 1rem;
+}
+
+.report-tab-panel {
+  padding-bottom: 1rem;
+}
+
+.report-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+}
+
+.report-tab {
+  min-height: 92px;
+  padding: 0.85rem;
+  border: 1px solid #dfe7ef;
+  border-radius: 8px;
+  color: #485767;
+  background: #ffffff;
+  text-align: left;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.report-tab:hover,
+.report-tab.active {
+  border-color: #b7d7c9;
+  box-shadow: 0 12px 28px rgba(16, 42, 67, 0.08);
+  transform: translateY(-1px);
+}
+
+.report-tab.active {
+  background:
+    linear-gradient(135deg, rgba(15, 81, 50, 0.09), rgba(18, 48, 71, 0.03)),
+    #fbfefd;
+}
+
+.report-tab span,
+.report-tab small {
+  display: block;
+}
+
+.report-tab span {
+  color: #123047;
+  font-weight: 800;
+}
+
+.report-tab small {
+  margin-top: 0.35rem;
+  color: #657789;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.report-toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.2fr) minmax(170px, 0.7fr) repeat(2, minmax(150px, 0.55fr)) auto;
+  align-items: end;
+  gap: 0.85rem;
 }
 
 .fault-report-toolbar-action {
@@ -427,6 +496,18 @@
 }
 
 .maintenance-schedule-toolbar-action .btn {
+  width: 100%;
+  border-radius: 6px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.report-toolbar-action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.report-toolbar-action .btn {
   width: 100%;
   border-radius: 6px;
   font-weight: 700;
@@ -632,6 +713,7 @@
 .maintenance-schedule-form .form-label,
 .maintenance-schedule-toolbar .form-label,
 .maintenance-work-order-form .form-label,
+.report-toolbar .form-label,
 .work-order-form .form-label,
 .work-order-toolbar .form-label,
 .work-order-progress-grid .form-label {
@@ -672,6 +754,8 @@
 .maintenance-schedule-toolbar .form-select,
 .maintenance-work-order-form .form-control,
 .maintenance-work-order-form .form-select,
+.report-toolbar .form-control,
+.report-toolbar .form-select,
 .work-order-form .form-control,
 .work-order-form .form-select,
 .work-order-toolbar .form-control,
@@ -714,6 +798,8 @@
 .maintenance-schedule-toolbar .form-select:focus,
 .maintenance-work-order-form .form-control:focus,
 .maintenance-work-order-form .form-select:focus,
+.report-toolbar .form-control:focus,
+.report-toolbar .form-select:focus,
 .work-order-form .form-control:focus,
 .work-order-form .form-select:focus,
 .work-order-toolbar .form-control:focus,
@@ -756,6 +842,7 @@
 .fault-report-table,
 .fuel-log-table,
 .maintenance-schedule-table,
+.report-table,
 .work-order-table {
   min-width: 1040px;
 }
@@ -764,6 +851,7 @@
 .fault-report-table,
 .fuel-log-table,
 .maintenance-schedule-table,
+.report-table,
 .work-order-table {
   width: max-content;
   min-width: 100%;
@@ -776,6 +864,7 @@
 .fault-report-table thead th,
 .fuel-log-table thead th,
 .maintenance-schedule-table thead th,
+.report-table thead th,
 .work-order-table thead th {
   color: #607083;
   border-bottom-color: #dfe7ef;
@@ -791,6 +880,7 @@
 .fault-report-table tbody td,
 .fuel-log-table tbody td,
 .maintenance-schedule-table tbody td,
+.report-table tbody td,
 .work-order-table tbody td {
   color: #344054;
   border-color: #eef2f6;
@@ -804,8 +894,40 @@
 .fault-report-table tbody tr:hover,
 .fuel-log-table tbody tr:hover,
 .maintenance-schedule-table tbody tr:hover,
+.report-table tbody tr:hover,
 .work-order-table tbody tr:hover {
   background: #f8fbfa;
+}
+
+.report-content-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.9fr) minmax(0, 1.1fr);
+  gap: 1.25rem;
+}
+
+.report-chart-panel,
+.report-table-panel {
+  min-width: 0;
+}
+
+.report-chart-body {
+  position: relative;
+  height: 340px;
+}
+
+.report-chart-empty {
+  display: grid;
+  height: 100%;
+  min-height: 240px;
+  place-items: center;
+  color: #657789;
+  text-align: center;
+}
+
+.report-chart-empty h3 {
+  color: #123047;
+  font-size: 1.1rem;
+  font-weight: 800;
 }
 
 .fault-row-high {
@@ -1554,6 +1676,8 @@
     width: 100%;
     min-height: auto;
     height: auto;
+    flex: 0 0 auto;
+    overflow-y: visible;
     border-right: 0;
     border-bottom: 1px solid #dee2e6;
   }
@@ -1605,6 +1729,11 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .report-tabs,
+  .report-content-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .vehicle-toolbar,
   .driver-toolbar,
   .assignment-toolbar,
@@ -1612,6 +1741,7 @@
   .fault-report-toolbar,
   .fuel-log-toolbar,
   .maintenance-schedule-toolbar,
+  .report-toolbar,
   .work-order-toolbar,
   .vehicle-form-grid,
   .driver-form-grid,
@@ -1642,6 +1772,10 @@
   }
 
   .maintenance-schedule-toolbar-action {
+    justify-content: flex-start;
+  }
+
+  .report-toolbar-action {
     justify-content: flex-start;
   }
 
@@ -1702,6 +1836,11 @@
     grid-template-columns: 1fr;
   }
 
+  .report-tabs,
+  .report-content-grid {
+    grid-template-columns: 1fr;
+  }
+
   .vehicle-toolbar,
   .driver-toolbar,
   .assignment-toolbar,
@@ -1709,6 +1848,7 @@
   .fault-report-toolbar,
   .fuel-log-toolbar,
   .maintenance-schedule-toolbar,
+  .report-toolbar,
   .work-order-toolbar,
   .vehicle-form-grid,
   .driver-form-grid,
