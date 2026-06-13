@@ -1,6 +1,7 @@
 const prisma = require("../config/prisma");
 
 const OPEN_WORK_ORDER_STATUSES = ["OPEN", "IN_PROGRESS", "PENDING_PARTS"];
+const COMPLETED_WORK_ORDER_STATUSES = ["COMPLETED", "CLOSED"];
 const ATTENTION_DOCUMENT_STATUSES = ["EXPIRING_SOON", "EXPIRED"];
 const ACTIVE_MAINTENANCE_STATUSES = ["ACTIVE", "DUE"];
 
@@ -40,7 +41,7 @@ async function getAdminDashboardSummary() {
     prisma.vehicle.count({ where: { status: "IN_MAINTENANCE" } }),
     prisma.driver.count(),
     prisma.workOrder.count({ where: { status: { in: OPEN_WORK_ORDER_STATUSES } } }),
-    prisma.workOrder.count({ where: { status: "COMPLETED" } }),
+    prisma.workOrder.count({ where: { status: { in: COMPLETED_WORK_ORDER_STATUSES } } }),
     prisma.fuelLog.aggregate({
       _sum: { totalAmount: true },
       where: {
@@ -121,7 +122,7 @@ async function getTechnicianDashboardSummary(userId) {
     prisma.workOrder.count({
       where: {
         ...assignedWhere,
-        status: "COMPLETED",
+        status: { in: COMPLETED_WORK_ORDER_STATUSES },
       },
     }),
     prisma.workOrder.count({

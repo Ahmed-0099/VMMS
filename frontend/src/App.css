@@ -361,6 +361,30 @@
   margin-bottom: 1rem;
 }
 
+.fuel-summary-grid {
+  margin-bottom: 1.25rem;
+}
+
+.fuel-log-toolbar {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(160px, 1fr)) auto;
+  align-items: end;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.fuel-log-toolbar-action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.fuel-log-toolbar-action .btn {
+  width: 100%;
+  border-radius: 6px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
 .work-order-status-tabs {
   display: flex;
   flex-wrap: wrap;
@@ -381,11 +405,65 @@
 .vehicle-form-grid,
 .driver-form-grid,
 .assignment-form-grid,
+.fuel-log-form-grid,
 .work-order-form-grid,
 .work-order-progress-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
+}
+
+.fuel-log-assigned-strip {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 0.35fr);
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.fuel-log-assigned-strip div,
+.fuel-log-total-card {
+  padding: 0.95rem;
+  border: 1px solid #d8e7df;
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(15, 81, 50, 0.08), rgba(18, 48, 71, 0.03)),
+    #fbfefd;
+}
+
+.fuel-log-assigned-strip span,
+.fuel-log-total-card span {
+  display: block;
+  color: #718096;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.fuel-log-assigned-strip strong,
+.fuel-log-total-card strong {
+  display: block;
+  margin-top: 0.25rem;
+  color: #123047;
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.fuel-log-assigned-strip small {
+  display: block;
+  margin-top: 0.2rem;
+  color: #657789;
+  font-weight: 700;
+}
+
+.fuel-log-total-card {
+  display: flex;
+  min-height: 82px;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.fuel-log-total-text {
+  color: #0f5132;
 }
 
 .driver-link-field {
@@ -416,6 +494,8 @@
 .driver-toolbar .form-label,
 .assignment-form .form-label,
 .assignment-toolbar .form-label,
+.fuel-log-form .form-label,
+.fuel-log-toolbar .form-label,
 .work-order-form .form-label,
 .work-order-toolbar .form-label,
 .work-order-progress-grid .form-label {
@@ -436,6 +516,10 @@
 .assignment-form .form-select,
 .assignment-toolbar .form-control,
 .assignment-toolbar .form-select,
+.fuel-log-form .form-control,
+.fuel-log-form .form-select,
+.fuel-log-toolbar .form-control,
+.fuel-log-toolbar .form-select,
 .work-order-form .form-control,
 .work-order-form .form-select,
 .work-order-toolbar .form-control,
@@ -458,6 +542,10 @@
 .assignment-form .form-select:focus,
 .assignment-toolbar .form-control:focus,
 .assignment-toolbar .form-select:focus,
+.fuel-log-form .form-control:focus,
+.fuel-log-form .form-select:focus,
+.fuel-log-toolbar .form-control:focus,
+.fuel-log-toolbar .form-select:focus,
 .work-order-form .form-control:focus,
 .work-order-form .form-select:focus,
 .work-order-toolbar .form-control:focus,
@@ -496,10 +584,12 @@
 
 .driver-table,
 .assignment-table,
+.fuel-log-table,
 .work-order-table {
   min-width: 1040px;
 }
 
+.fuel-log-table,
 .work-order-table {
   width: max-content;
   min-width: 100%;
@@ -508,6 +598,7 @@
 .vehicle-table thead th,
 .driver-table thead th,
 .assignment-table thead th,
+.fuel-log-table thead th,
 .work-order-table thead th {
   color: #607083;
   border-bottom-color: #dfe7ef;
@@ -519,6 +610,7 @@
 .vehicle-table tbody td,
 .driver-table tbody td,
 .assignment-table tbody td,
+.fuel-log-table tbody td,
 .work-order-table tbody td {
   color: #344054;
   border-color: #eef2f6;
@@ -528,8 +620,15 @@
 .vehicle-table tbody tr:hover,
 .driver-table tbody tr:hover,
 .assignment-table tbody tr:hover,
+.fuel-log-table tbody tr:hover,
 .work-order-table tbody tr:hover {
   background: #f8fbfa;
+}
+
+.fuel-log-actions {
+  flex-wrap: nowrap;
+  min-width: max-content;
+  white-space: nowrap;
 }
 
 .work-order-actions {
@@ -1166,15 +1265,25 @@
   .vehicle-toolbar,
   .driver-toolbar,
   .assignment-toolbar,
+  .fuel-log-toolbar,
   .work-order-toolbar,
   .vehicle-form-grid,
   .driver-form-grid,
   .assignment-form-grid,
+  .fuel-log-form-grid,
   .work-order-form-grid,
   .work-order-progress-grid,
   .vehicle-detail-grid,
   .vehicle-count-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .fuel-log-toolbar-action {
+    justify-content: flex-start;
+  }
+
+  .fuel-log-assigned-strip {
+    grid-template-columns: 1fr;
   }
 
   .driver-form-wide,
@@ -1228,10 +1337,12 @@
   .vehicle-toolbar,
   .driver-toolbar,
   .assignment-toolbar,
+  .fuel-log-toolbar,
   .work-order-toolbar,
   .vehicle-form-grid,
   .driver-form-grid,
   .assignment-form-grid,
+  .fuel-log-form-grid,
   .work-order-form-grid,
   .work-order-progress-grid,
   .vehicle-detail-grid,

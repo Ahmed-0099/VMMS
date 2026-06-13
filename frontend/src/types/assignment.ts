@@ -8,6 +8,7 @@ export type AssignmentVehicleSummary = {
   registrationNumber: string
   make: string
   model: string
+  fuelType: string
   status: VehicleStatus
   currentOdometer: number | null
 }

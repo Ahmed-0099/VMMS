@@ -6,6 +6,7 @@ import { Assignments } from './pages/Assignments'
 import { Dashboard } from './pages/Dashboard'
 import { DriverDetail } from './pages/DriverDetail'
 import { Drivers } from './pages/Drivers'
+import { FuelLogs } from './pages/FuelLogs'
 import { Login } from './pages/Login'
 import { MyVehicle } from './pages/MyVehicle'
 import { PlaceholderPage } from './pages/PlaceholderPage'
@@ -20,7 +21,6 @@ import './App.css'
 const pages = [
   { path: 'maintenance-schedules', title: 'Maintenance Schedules', description: 'Preventive maintenance due dates and odometer triggers.', roles: ['ADMIN'] },
   { path: 'fault-reports', title: 'Fault Reports', description: 'Driver-submitted vehicle issues and review workflow.', roles: ['ADMIN', 'DRIVER'] },
-  { path: 'fuel-logs', title: 'Fuel Logs', description: 'Fuel fill-up records, costs, and odometer readings.', roles: ['ADMIN', 'DRIVER'] },
   { path: 'compliance-documents', title: 'Compliance Documents', description: 'Registration, insurance, and expiry tracking.', roles: ['ADMIN'] },
   { path: 'reports', title: 'Reports', description: 'Vehicle, fuel, work order, and compliance summaries.', roles: ['ADMIN'] },
   { path: 'settings', title: 'Settings', description: 'Basic account and project settings.', roles: ['ADMIN', 'TECHNICIAN', 'DRIVER'] },
@@ -111,6 +111,14 @@ function App() {
             element={
               <RoleGuard allowedRoles={['ADMIN', 'TECHNICIAN']} fallback={<AccessDenied />}>
                 <WorkOrderDetail />
+              </RoleGuard>
+            }
+          />
+          <Route
+            path="fuel-logs"
+            element={
+              <RoleGuard allowedRoles={['ADMIN', 'DRIVER']} fallback={<AccessDenied />}>
+                <FuelLogs />
               </RoleGuard>
             }
           />

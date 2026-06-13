@@ -8,6 +8,7 @@ const assignmentInclude = {
       registrationNumber: true,
       make: true,
       model: true,
+      fuelType: true,
       status: true,
       currentOdometer: true,
     },
