@@ -11,7 +11,7 @@ import {
   type ReportType,
 } from '../types/report'
 import type { Vehicle } from '../types/vehicle'
-import { exportProfessionalReport } from '../utils/exportReport'
+import { exportProfessionalReportPdf, type ExportChartImage } from '../utils/exportReport'
 import { getApiErrorMessage } from '../utils/getApiErrorMessage'
 
 const reportTabs: Array<{ description: string; label: string; type: ReportType }> = [
@@ -86,9 +86,32 @@ export function Reports() {
     return vehicle ? `${vehicle.registrationNumber} - ${vehicle.make} ${vehicle.model}` : 'Selected vehicle'
   }
 
-  function getChartImage() {
+  function getChartImage(): ExportChartImage | null {
     const canvas = document.querySelector<HTMLCanvasElement>('.report-chart-body canvas')
-    return canvas?.toDataURL('image/png', 1) ?? null
+
+    if (!canvas) {
+      return null
+    }
+
+    const exportCanvas = document.createElement('canvas')
+    exportCanvas.width = canvas.width
+    exportCanvas.height = canvas.height
+
+    const context = exportCanvas.getContext('2d')
+
+    if (!context) {
+      return null
+    }
+
+    context.fillStyle = '#ffffff'
+    context.fillRect(0, 0, exportCanvas.width, exportCanvas.height)
+    context.drawImage(canvas, 0, 0)
+
+    return {
+      dataUrl: exportCanvas.toDataURL('image/jpeg', 0.92),
+      height: exportCanvas.height,
+      width: exportCanvas.width,
+    }
   }
 
   function handleExportReport() {
@@ -96,11 +119,12 @@ export function Reports() {
       return
     }
 
-    exportProfessionalReport({
+    exportProfessionalReportPdf({
       chartImage: getChartImage(),
       data,
       filters,
       reportTitle: getReportTitle(activeReportType),
+      reportType: activeReportType,
       vehicleLabel: getSelectedVehicleLabel(),
     })
   }
