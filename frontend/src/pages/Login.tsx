@@ -53,23 +53,23 @@ export function Login() {
     <main className="auth-page">
       <section className="auth-shell">
         <div className="auth-brand-panel">
-          <span className="auth-kicker">VMMS Phase 1</span>
+          <span className="auth-kicker">VMMS Workspace</span>
           <h1>Sign in to your fleet workspace</h1>
           <p>
             Manage vehicles, drivers, work orders, fuel logs, and compliance records from one focused dashboard.
           </p>
           <div className="auth-proof-grid">
             <div>
-              <strong>React</strong>
-              <span>Premium UI</span>
+              <strong>Fleet</strong>
+              <span>Overview</span>
             </div>
             <div>
-              <strong>Express</strong>
-              <span>REST API</span>
+              <strong>Maintenance</strong>
+              <span>Control</span>
             </div>
             <div>
-              <strong>Prisma</strong>
-              <span>PostgreSQL</span>
+              <strong>Compliance</strong>
+              <span>Tracking</span>
             </div>
           </div>
         </div>

@@ -15,7 +15,7 @@ export function Dashboard() {
       <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
         <div>
           <h1 className="page-title h3 mb-1">Dashboard</h1>
-          <p className="text-secondary mb-0">Phase 1 VMMS summary for vehicles, drivers, work orders, fuel, and documents.</p>
+          <p className="text-secondary mb-0">VMMS summary for vehicles, drivers, work orders, fuel, and documents.</p>
         </div>
         <span className="badge text-bg-success">Setup Ready</span>
       </div>

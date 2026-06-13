@@ -6,7 +6,7 @@ import type { RoleName } from '../types/auth'
 import { getApiErrorMessage } from '../utils/getApiErrorMessage'
 
 const roleOptions: Array<{ value: RoleName; label: string; helper: string }> = [
-  { value: 'ADMIN', label: 'Fleet Manager', helper: 'Full access for Phase 1 modules' },
+  { value: 'ADMIN', label: 'Fleet Manager', helper: 'Full access to fleet operations' },
   { value: 'TECHNICIAN', label: 'Technician', helper: 'Assigned work order workflow' },
   { value: 'DRIVER', label: 'Driver', helper: 'Fault reports and fuel logs' },
 ]
@@ -47,20 +47,20 @@ export function Register() {
           <span className="auth-kicker">Start VMMS</span>
           <h1>Create a focused fleet account</h1>
           <p>
-            Keep the semester scope practical: one organization, three roles, core CRUD modules, and clean dashboard workflows.
+            Set up your fleet workspace to manage vehicles, drivers, maintenance activity, fuel records, and compliance tasks.
           </p>
           <div className="auth-proof-grid">
             <div>
-              <strong>JWT</strong>
-              <span>Session</span>
+              <strong>Vehicles</strong>
+              <span>Registry</span>
             </div>
             <div>
-              <strong>bcrypt</strong>
-              <span>Passwords</span>
+              <strong>Work Orders</strong>
+              <span>Tracking</span>
             </div>
             <div>
-              <strong>Roles</strong>
-              <span>Access</span>
+              <strong>Drivers</strong>
+              <span>Assignments</span>
             </div>
           </div>
         </div>
