@@ -10,6 +10,7 @@ const assignmentRoutes = require("./routes/assignmentRoutes");
 const workOrderRoutes = require("./routes/workOrderRoutes");
 const fuelLogRoutes = require("./routes/fuelLogRoutes");
 const complianceDocumentRoutes = require("./routes/complianceDocumentRoutes");
+const faultReportRoutes = require("./routes/faultReportRoutes");
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use("/api/assignments", assignmentRoutes);
 app.use("/api/work-orders", workOrderRoutes);
 app.use("/api/fuel-logs", fuelLogRoutes);
 app.use("/api/compliance-documents", complianceDocumentRoutes);
+app.use("/api/fault-reports", faultReportRoutes);
 
 app.use((req, res) => {
   res.status(404).json({

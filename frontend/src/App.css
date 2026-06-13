@@ -385,6 +385,30 @@
   margin-bottom: 1rem;
 }
 
+.fault-summary-grid {
+  margin-bottom: 1.25rem;
+}
+
+.fault-report-toolbar {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(160px, 1fr)) auto;
+  align-items: end;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.fault-report-toolbar-action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.fault-report-toolbar-action .btn {
+  width: 100%;
+  border-radius: 6px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
 .compliance-document-toolbar-action {
   display: flex;
   justify-content: flex-end;
@@ -430,6 +454,8 @@
 .driver-form-grid,
 .assignment-form-grid,
 .compliance-document-form-grid,
+.fault-convert-grid,
+.fault-report-form-grid,
 .fuel-log-form-grid,
 .work-order-form-grid,
 .work-order-progress-grid {
@@ -445,7 +471,15 @@
   margin-bottom: 1rem;
 }
 
+.fault-report-assigned-strip {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 0.35fr);
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
 .fuel-log-assigned-strip div,
+.fault-report-assigned-strip div,
 .fuel-log-total-card {
   padding: 0.95rem;
   border: 1px solid #d8e7df;
@@ -456,6 +490,7 @@
 }
 
 .fuel-log-assigned-strip span,
+.fault-report-assigned-strip span,
 .fuel-log-total-card span {
   display: block;
   color: #718096;
@@ -465,6 +500,7 @@
 }
 
 .fuel-log-assigned-strip strong,
+.fault-report-assigned-strip strong,
 .fuel-log-total-card strong {
   display: block;
   margin-top: 0.25rem;
@@ -474,6 +510,13 @@
 }
 
 .fuel-log-assigned-strip small {
+  display: block;
+  margin-top: 0.2rem;
+  color: #657789;
+  font-weight: 700;
+}
+
+.fault-report-assigned-strip small {
   display: block;
   margin-top: 0.2rem;
   color: #657789;
@@ -508,7 +551,18 @@
   grid-column: 1 / -1;
 }
 
+.fault-report-form-wide,
+.fault-convert-wide {
+  grid-column: 1 / -1;
+}
+
 .work-order-form textarea {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.fault-report-form textarea,
+.fault-convert-form textarea {
   min-height: 92px;
   resize: vertical;
 }
@@ -521,6 +575,9 @@
 .assignment-toolbar .form-label,
 .compliance-document-form .form-label,
 .compliance-document-toolbar .form-label,
+.fault-convert-form .form-label,
+.fault-report-form .form-label,
+.fault-report-toolbar .form-label,
 .fuel-log-form .form-label,
 .fuel-log-toolbar .form-label,
 .work-order-form .form-label,
@@ -547,6 +604,12 @@
 .compliance-document-form .form-select,
 .compliance-document-toolbar .form-control,
 .compliance-document-toolbar .form-select,
+.fault-convert-form .form-control,
+.fault-convert-form .form-select,
+.fault-report-form .form-control,
+.fault-report-form .form-select,
+.fault-report-toolbar .form-control,
+.fault-report-toolbar .form-select,
 .fuel-log-form .form-control,
 .fuel-log-form .form-select,
 .fuel-log-toolbar .form-control,
@@ -577,6 +640,12 @@
 .compliance-document-form .form-select:focus,
 .compliance-document-toolbar .form-control:focus,
 .compliance-document-toolbar .form-select:focus,
+.fault-convert-form .form-control:focus,
+.fault-convert-form .form-select:focus,
+.fault-report-form .form-control:focus,
+.fault-report-form .form-select:focus,
+.fault-report-toolbar .form-control:focus,
+.fault-report-toolbar .form-select:focus,
 .fuel-log-form .form-control:focus,
 .fuel-log-form .form-select:focus,
 .fuel-log-toolbar .form-control:focus,
@@ -620,12 +689,14 @@
 .driver-table,
 .assignment-table,
 .compliance-document-table,
+.fault-report-table,
 .fuel-log-table,
 .work-order-table {
   min-width: 1040px;
 }
 
 .compliance-document-table,
+.fault-report-table,
 .fuel-log-table,
 .work-order-table {
   width: max-content;
@@ -636,6 +707,7 @@
 .driver-table thead th,
 .assignment-table thead th,
 .compliance-document-table thead th,
+.fault-report-table thead th,
 .fuel-log-table thead th,
 .work-order-table thead th {
   color: #607083;
@@ -649,6 +721,7 @@
 .driver-table tbody td,
 .assignment-table tbody td,
 .compliance-document-table tbody td,
+.fault-report-table tbody td,
 .fuel-log-table tbody td,
 .work-order-table tbody td {
   color: #344054;
@@ -660,9 +733,54 @@
 .driver-table tbody tr:hover,
 .assignment-table tbody tr:hover,
 .compliance-document-table tbody tr:hover,
+.fault-report-table tbody tr:hover,
 .fuel-log-table tbody tr:hover,
 .work-order-table tbody tr:hover {
   background: #f8fbfa;
+}
+
+.fault-row-high {
+  background: #fff8f8;
+}
+
+.fault-report-description {
+  max-width: 340px;
+  color: #344054;
+  font-weight: 700;
+  white-space: normal;
+}
+
+.fault-report-actions {
+  flex-wrap: nowrap;
+  min-width: max-content;
+  white-space: nowrap;
+}
+
+.fault-convert-panel {
+  border-color: #d8e7df;
+}
+
+.fault-convert-context {
+  margin-bottom: 1rem;
+  padding: 0.95rem;
+  border: 1px solid #e7edf3;
+  border-radius: 8px;
+  background: #fbfcfe;
+}
+
+.fault-convert-context span {
+  display: block;
+  color: #b42318;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.fault-convert-context strong {
+  display: block;
+  margin-top: 0.3rem;
+  color: #123047;
+  font-weight: 800;
 }
 
 .compliance-row-warning {
@@ -1354,12 +1472,15 @@
   .driver-toolbar,
   .assignment-toolbar,
   .compliance-document-toolbar,
+  .fault-report-toolbar,
   .fuel-log-toolbar,
   .work-order-toolbar,
   .vehicle-form-grid,
   .driver-form-grid,
   .assignment-form-grid,
   .compliance-document-form-grid,
+  .fault-convert-grid,
+  .fault-report-form-grid,
   .fuel-log-form-grid,
   .work-order-form-grid,
   .work-order-progress-grid,
@@ -1376,11 +1497,18 @@
     justify-content: flex-start;
   }
 
+  .fault-report-toolbar-action {
+    justify-content: flex-start;
+  }
+
+  .fault-report-assigned-strip,
   .fuel-log-assigned-strip {
     grid-template-columns: 1fr;
   }
 
   .driver-form-wide,
+  .fault-convert-wide,
+  .fault-report-form-wide,
   .work-order-form-wide {
     grid-column: 1 / -1;
   }
@@ -1432,12 +1560,15 @@
   .driver-toolbar,
   .assignment-toolbar,
   .compliance-document-toolbar,
+  .fault-report-toolbar,
   .fuel-log-toolbar,
   .work-order-toolbar,
   .vehicle-form-grid,
   .driver-form-grid,
   .assignment-form-grid,
   .compliance-document-form-grid,
+  .fault-convert-grid,
+  .fault-report-form-grid,
   .fuel-log-form-grid,
   .work-order-form-grid,
   .work-order-progress-grid,
@@ -1461,6 +1592,8 @@
 
   .driver-form-wide,
   .driver-detail-wide,
+  .fault-convert-wide,
+  .fault-report-form-wide,
   .work-order-form-wide,
   .work-order-detail-wide {
     grid-column: 1 / -1;
