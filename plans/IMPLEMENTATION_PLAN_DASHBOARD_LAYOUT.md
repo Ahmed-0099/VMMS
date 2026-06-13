@@ -36,7 +36,9 @@ Scope: premium dashboard shell, sidebar/topbar layout, role-based summary cards,
 
 - Update `backend/src/routes/dashboardRoutes.js`.
   - Keep `GET /api/dashboard/summary`.
-  - Add clean query logic for:
+  - Keep the route thin and delegate summary calculation to the controller/service.
+
+- Dashboard summary should calculate:
     - total vehicles
     - active vehicles
     - vehicles in maintenance

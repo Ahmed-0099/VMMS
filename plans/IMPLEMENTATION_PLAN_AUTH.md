@@ -29,6 +29,9 @@ Scope: register, login, JWT session, bcrypt password hashing, and role-based acc
   - `ADMIN`
   - `TECHNICIAN`
   - `DRIVER`
+- Important registration note:
+  - For the university/demo flow, registration may allow selecting a role so all three dashboards can be tested.
+  - In a stricter real-world deployment, only an Admin should create Technician/Driver accounts or approve role changes.
 - Keep `email` unique.
 - Keep `roleId` as a foreign key relation to `Role`.
 - Keep `.env` private and use:
@@ -74,6 +77,9 @@ npm run prisma:seed
   - `POST /api/auth/register`
   - `POST /api/auth/login`
   - `GET /api/auth/me`
+  - `POST /api/auth/logout`
+    - Protect with `requireAuth`.
+    - Return a success message; JWT invalidation is handled on the frontend by clearing local storage.
 
 - Create `backend/src/middleware/authMiddleware.js`.
   - Read `Authorization: Bearer <token>`.
@@ -123,11 +129,14 @@ npm run prisma:seed
   - `LoginPayload`
   - `RegisterPayload`
   - `AuthResponse`
+  - `RegisterResponse`
+  - `MeResponse`
 
 - Create `frontend/src/services/authService.ts`.
   - `register(payload)`
   - `login(payload)`
   - `getMe()`
+  - `logout()` if the frontend chooses to call the backend logout endpoint before clearing local storage.
   - Use `frontend/src/services/api.ts`.
 
 - Update `frontend/src/services/api.ts`.
@@ -151,6 +160,15 @@ npm run prisma:seed
 - Create `frontend/src/components/RoleGuard.tsx`.
   - Hide or block UI for roles that are not allowed.
 
+- Create or update role-aware layout components:
+  - `frontend/src/components/Sidebar.tsx`
+    - Owns navigation items and `NavLink` active states.
+    - Filters visible nav links by logged-in role.
+  - `frontend/src/components/Topbar.tsx`
+    - Shows page title, current user, role badge, and logout action.
+  - `frontend/src/components/AppLayout.tsx`
+    - Composes `Sidebar`, `Topbar`, and `Outlet`.
+
 - Create pages:
   - `frontend/src/pages/Login.tsx`
   - `frontend/src/pages/Register.tsx`
@@ -162,13 +180,10 @@ npm run prisma:seed
   - Wrap dashboard/module routes with `ProtectedRoute`.
   - Redirect `/` based on auth state.
 
-- Update `frontend/src/components/AppLayout.tsx`.
-  - Show logged-in user name and role in the header area.
-  - Add logout button.
-  - Hide navigation items by role:
-    - `ADMIN`: dashboard and all admin modules.
-    - `TECHNICIAN`: dashboard and assigned work orders.
-    - `DRIVER`: dashboard, fault reports, fuel logs, and own assigned-vehicle flows after the driver profile link exists.
+- Role-based navigation:
+  - `ADMIN`: dashboard, vehicles, drivers, assignments, maintenance, work orders, fault reports, fuel logs, documents, reports, settings.
+  - `TECHNICIAN`: dashboard, assigned work orders, settings.
+  - `DRIVER`: dashboard, fault reports, fuel logs, settings, and own assigned-vehicle flows after the driver profile link exists.
 
 - Premium UI requirements:
   - Login/register screens should look polished, not like raw Bootstrap examples.
@@ -181,6 +196,7 @@ npm run prisma:seed
   - User can register.
   - User can login.
   - Token is saved.
+  - `/api/auth/logout` requires a valid token and returns success.
   - Protected routes cannot open without login.
   - Logout clears session.
   - Sidebar adapts to role.

@@ -4,6 +4,7 @@ const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const healthRoutes = require("./routes/healthRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
+const vehicleRoutes = require("./routes/vehicleRoutes");
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/health", healthRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/vehicles", vehicleRoutes);
 
 app.use((req, res) => {
   res.status(404).json({

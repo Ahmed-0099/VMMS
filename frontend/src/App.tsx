@@ -6,11 +6,12 @@ import { Dashboard } from './pages/Dashboard'
 import { Login } from './pages/Login'
 import { PlaceholderPage } from './pages/PlaceholderPage'
 import { Register } from './pages/Register'
+import { VehicleDetail } from './pages/VehicleDetail'
+import { Vehicles } from './pages/Vehicles'
 import type { RoleName } from './types/auth'
 import './App.css'
 
 const pages = [
-  { path: 'vehicles', title: 'Vehicles', description: 'Vehicle registry and vehicle detail records.', roles: ['ADMIN'] },
   { path: 'drivers', title: 'Drivers', description: 'Driver profiles, license details, and status tracking.', roles: ['ADMIN'] },
   { path: 'assignments', title: 'Assignments', description: 'Active and historical driver-to-vehicle assignments.', roles: ['ADMIN'] },
   { path: 'maintenance-schedules', title: 'Maintenance Schedules', description: 'Preventive maintenance due dates and odometer triggers.', roles: ['ADMIN'] },
@@ -46,6 +47,22 @@ function App() {
         <Route element={<AppLayout />}>
           <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
+          <Route
+            path="vehicles"
+            element={
+              <RoleGuard allowedRoles={['ADMIN']} fallback={<AccessDenied />}>
+                <Vehicles />
+              </RoleGuard>
+            }
+          />
+          <Route
+            path="vehicles/:id"
+            element={
+              <RoleGuard allowedRoles={['ADMIN']} fallback={<AccessDenied />}>
+                <VehicleDetail />
+              </RoleGuard>
+            }
+          />
           {pages.map((page) => (
             <Route
               key={page.path}
