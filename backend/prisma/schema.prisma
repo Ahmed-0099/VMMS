@@ -89,6 +89,7 @@ model User {
   role                Role          @relation(fields: [roleId], references: [id])
   technicianOrders    WorkOrder[]   @relation("TechnicianWorkOrders")
   createdFaultReports FaultReport[] @relation("FaultReporter")
+  driverProfile       Driver?
   createdAt           DateTime      @default(now()) @map("created_at")
   updatedAt           DateTime      @updatedAt @map("updated_at")
 
@@ -121,6 +122,8 @@ model Vehicle {
 
 model Driver {
   id            String              @id @default(cuid())
+  userId        String?             @unique @map("user_id")
+  user          User?               @relation(fields: [userId], references: [id], onDelete: SetNull)
   fullName      String              @map("full_name")
   cnic          String?             @unique
   licenseNumber String              @unique @map("license_number")

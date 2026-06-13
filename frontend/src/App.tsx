@@ -3,6 +3,8 @@ import { AppLayout } from './components/AppLayout'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { RoleGuard } from './components/RoleGuard'
 import { Dashboard } from './pages/Dashboard'
+import { DriverDetail } from './pages/DriverDetail'
+import { Drivers } from './pages/Drivers'
 import { Login } from './pages/Login'
 import { PlaceholderPage } from './pages/PlaceholderPage'
 import { Register } from './pages/Register'
@@ -12,7 +14,6 @@ import type { RoleName } from './types/auth'
 import './App.css'
 
 const pages = [
-  { path: 'drivers', title: 'Drivers', description: 'Driver profiles, license details, and status tracking.', roles: ['ADMIN'] },
   { path: 'assignments', title: 'Assignments', description: 'Active and historical driver-to-vehicle assignments.', roles: ['ADMIN'] },
   { path: 'maintenance-schedules', title: 'Maintenance Schedules', description: 'Preventive maintenance due dates and odometer triggers.', roles: ['ADMIN'] },
   { path: 'work-orders', title: 'Work Orders', description: 'Maintenance job cards, technician assignments, and repair statuses.', roles: ['ADMIN', 'TECHNICIAN'] },
@@ -60,6 +61,22 @@ function App() {
             element={
               <RoleGuard allowedRoles={['ADMIN']} fallback={<AccessDenied />}>
                 <VehicleDetail />
+              </RoleGuard>
+            }
+          />
+          <Route
+            path="drivers"
+            element={
+              <RoleGuard allowedRoles={['ADMIN']} fallback={<AccessDenied />}>
+                <Drivers />
+              </RoleGuard>
+            }
+          />
+          <Route
+            path="drivers/:id"
+            element={
+              <RoleGuard allowedRoles={['ADMIN']} fallback={<AccessDenied />}>
+                <DriverDetail />
               </RoleGuard>
             }
           />
