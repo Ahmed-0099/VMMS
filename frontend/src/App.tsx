@@ -2,10 +2,12 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppLayout } from './components/AppLayout'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { RoleGuard } from './components/RoleGuard'
+import { Assignments } from './pages/Assignments'
 import { Dashboard } from './pages/Dashboard'
 import { DriverDetail } from './pages/DriverDetail'
 import { Drivers } from './pages/Drivers'
 import { Login } from './pages/Login'
+import { MyVehicle } from './pages/MyVehicle'
 import { PlaceholderPage } from './pages/PlaceholderPage'
 import { Register } from './pages/Register'
 import { VehicleDetail } from './pages/VehicleDetail'
@@ -14,7 +16,6 @@ import type { RoleName } from './types/auth'
 import './App.css'
 
 const pages = [
-  { path: 'assignments', title: 'Assignments', description: 'Active and historical driver-to-vehicle assignments.', roles: ['ADMIN'] },
   { path: 'maintenance-schedules', title: 'Maintenance Schedules', description: 'Preventive maintenance due dates and odometer triggers.', roles: ['ADMIN'] },
   { path: 'work-orders', title: 'Work Orders', description: 'Maintenance job cards, technician assignments, and repair statuses.', roles: ['ADMIN', 'TECHNICIAN'] },
   { path: 'fault-reports', title: 'Fault Reports', description: 'Driver-submitted vehicle issues and review workflow.', roles: ['ADMIN', 'DRIVER'] },
@@ -77,6 +78,22 @@ function App() {
             element={
               <RoleGuard allowedRoles={['ADMIN']} fallback={<AccessDenied />}>
                 <DriverDetail />
+              </RoleGuard>
+            }
+          />
+          <Route
+            path="assignments"
+            element={
+              <RoleGuard allowedRoles={['ADMIN']} fallback={<AccessDenied />}>
+                <Assignments />
+              </RoleGuard>
+            }
+          />
+          <Route
+            path="my-vehicle"
+            element={
+              <RoleGuard allowedRoles={['DRIVER']} fallback={<AccessDenied />}>
+                <MyVehicle />
               </RoleGuard>
             }
           />

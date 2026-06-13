@@ -347,12 +347,20 @@
   margin-bottom: 1rem;
 }
 
+.assignment-toolbar {
+  display: grid;
+  grid-template-columns: minmax(180px, 260px);
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
 .vehicle-search {
   min-width: 0;
 }
 
 .vehicle-form-grid,
-.driver-form-grid {
+.driver-form-grid,
+.assignment-form-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
@@ -374,7 +382,9 @@
 .vehicle-form .form-label,
 .vehicle-toolbar .form-label,
 .driver-form .form-label,
-.driver-toolbar .form-label {
+.driver-toolbar .form-label,
+.assignment-form .form-label,
+.assignment-toolbar .form-label {
   color: #123047;
   font-size: 0.9rem;
   font-weight: 800;
@@ -387,7 +397,11 @@
 .driver-form .form-control,
 .driver-form .form-select,
 .driver-toolbar .form-control,
-.driver-toolbar .form-select {
+.driver-toolbar .form-select,
+.assignment-form .form-control,
+.assignment-form .form-select,
+.assignment-toolbar .form-control,
+.assignment-toolbar .form-select {
   border-color: #d9e2ec;
   border-radius: 8px;
 }
@@ -399,7 +413,11 @@
 .driver-form .form-control:focus,
 .driver-form .form-select:focus,
 .driver-toolbar .form-control:focus,
-.driver-toolbar .form-select:focus {
+.driver-toolbar .form-select:focus,
+.assignment-form .form-control:focus,
+.assignment-form .form-select:focus,
+.assignment-toolbar .form-control:focus,
+.assignment-toolbar .form-select:focus {
   border-color: #0f5132;
   box-shadow: 0 0 0 0.2rem rgba(15, 81, 50, 0.12);
 }
@@ -430,12 +448,14 @@
   padding-bottom: 0.2rem;
 }
 
-.driver-table {
+.driver-table,
+.assignment-table {
   min-width: 1040px;
 }
 
 .vehicle-table thead th,
-.driver-table thead th {
+.driver-table thead th,
+.assignment-table thead th {
   color: #607083;
   border-bottom-color: #dfe7ef;
   font-size: 0.78rem;
@@ -444,15 +464,95 @@
 }
 
 .vehicle-table tbody td,
-.driver-table tbody td {
+.driver-table tbody td,
+.assignment-table tbody td {
   color: #344054;
   border-color: #eef2f6;
   vertical-align: middle;
 }
 
 .vehicle-table tbody tr:hover,
-.driver-table tbody tr:hover {
+.driver-table tbody tr:hover,
+.assignment-table tbody tr:hover {
   background: #f8fbfa;
+}
+
+.assignment-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.assignment-section-heading h3 {
+  margin: 0.2rem 0 0;
+  color: #123047;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.my-vehicle-panel {
+  overflow: hidden;
+}
+
+.my-vehicle-hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem;
+  border: 1px solid #d8e7df;
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(15, 81, 50, 0.1), rgba(18, 48, 71, 0.04)),
+    #fbfefd;
+}
+
+.my-vehicle-hero h3 {
+  margin: 0.25rem 0 0;
+  color: #123047;
+  font-size: 2.15rem;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.my-vehicle-hero p {
+  margin: 0.3rem 0 0;
+  color: #657789;
+  font-weight: 700;
+}
+
+.my-vehicle-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.my-vehicle-grid div {
+  padding: 0.95rem;
+  border: 1px solid #e7edf3;
+  border-radius: 8px;
+  background: #fbfcfe;
+}
+
+.my-vehicle-grid span {
+  display: block;
+  color: #718096;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.my-vehicle-grid strong {
+  display: block;
+  margin-top: 0.35rem;
+  color: #123047;
+  font-size: 1rem;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+  text-transform: capitalize;
 }
 
 .vehicle-reg-link {
@@ -940,14 +1040,17 @@
   }
 
   .dashboard-grid,
-  .attention-list {
+  .attention-list,
+  .my-vehicle-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .vehicle-toolbar,
   .driver-toolbar,
+  .assignment-toolbar,
   .vehicle-form-grid,
   .driver-form-grid,
+  .assignment-form-grid,
   .vehicle-detail-grid,
   .vehicle-count-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -994,17 +1097,33 @@
   }
 
   .dashboard-grid,
-  .attention-list {
+  .attention-list,
+  .my-vehicle-grid {
     grid-template-columns: 1fr;
   }
 
   .vehicle-toolbar,
   .driver-toolbar,
+  .assignment-toolbar,
   .vehicle-form-grid,
   .driver-form-grid,
+  .assignment-form-grid,
   .vehicle-detail-grid,
   .vehicle-count-grid {
     grid-template-columns: 1fr;
+  }
+
+  .assignment-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .my-vehicle-hero {
+    flex-direction: column;
+  }
+
+  .my-vehicle-hero h3 {
+    font-size: 1.75rem;
   }
 
   .driver-form-wide,

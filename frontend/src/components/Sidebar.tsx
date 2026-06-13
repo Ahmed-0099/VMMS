@@ -7,6 +7,7 @@ const navItems = [
   { to: '/vehicles', label: 'Vehicles', roles: ['ADMIN'] },
   { to: '/drivers', label: 'Drivers', roles: ['ADMIN'] },
   { to: '/assignments', label: 'Assignments', roles: ['ADMIN'] },
+  { to: '/my-vehicle', label: 'My Vehicle', roles: ['DRIVER'] },
   { to: '/maintenance-schedules', label: 'Maintenance', roles: ['ADMIN'] },
   { to: '/work-orders', label: 'Work Orders', roles: ['ADMIN', 'TECHNICIAN'] },
   { to: '/fault-reports', label: 'Fault Reports', roles: ['ADMIN', 'DRIVER'] },
