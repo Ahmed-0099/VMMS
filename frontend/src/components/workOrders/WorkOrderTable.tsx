@@ -96,7 +96,7 @@ export function WorkOrderTable({
             <th>Status</th>
             <th>Due Date</th>
             <th>Technician</th>
-            <th className="text-end">Actions</th>
+            <th className="text-end work-order-actions-cell">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -107,7 +107,7 @@ export function WorkOrderTable({
 
             return (
               <tr key={workOrder.id}>
-                <td>
+                <td className="work-order-actions-cell">
                   <div className="vehicle-main-text">{workOrder.vehicle.registrationNumber}</div>
                   <div className="vehicle-muted-text">
                     {workOrder.vehicle.make} {workOrder.vehicle.model}

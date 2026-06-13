@@ -500,6 +500,11 @@
   min-width: 1040px;
 }
 
+.work-order-table {
+  width: max-content;
+  min-width: 100%;
+}
+
 .vehicle-table thead th,
 .driver-table thead th,
 .assignment-table thead th,
@@ -529,13 +534,27 @@
 
 .work-order-actions {
   align-items: center;
+  flex-wrap: nowrap;
+  min-width: max-content;
+  white-space: nowrap;
+}
+
+.work-order-actions-cell {
+  min-width: max-content;
+  white-space: nowrap;
 }
 
 .work-order-status-actions {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: flex-end;
   gap: 0.4rem;
+  min-width: max-content;
+  white-space: nowrap;
+}
+
+.work-order-status-actions .vehicle-muted-text {
+  white-space: nowrap;
 }
 
 .work-order-due {
