@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import type { ReactNode } from 'react'
 import { AUTH_TOKEN_STORAGE_KEY } from '../services/api'
 import * as authService from '../services/authService'
-import type { AuthUser, LoginPayload, RegisterPayload } from '../types/auth'
+import type { AuthUser, ChangePasswordPayload, LoginPayload, RegisterPayload, UpdateProfilePayload } from '../types/auth'
 
 type AuthContextValue = {
   user: AuthUser | null
@@ -11,6 +11,8 @@ type AuthContextValue = {
   isLoading: boolean
   login: (payload: LoginPayload) => Promise<void>
   register: (payload: RegisterPayload) => Promise<AuthUser>
+  updateProfile: (payload: UpdateProfilePayload) => Promise<AuthUser>
+  changePassword: (payload: ChangePasswordPayload) => Promise<void>
   logout: () => void
 }
 
@@ -85,6 +87,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return response.user
   }, [])
 
+  const updateProfile = useCallback(async (payload: UpdateProfilePayload) => {
+    const response = await authService.updateProfile(payload)
+    setUser(response.user)
+    return response.user
+  }, [])
+
+  const changePassword = useCallback(async (payload: ChangePasswordPayload) => {
+    await authService.changePassword(payload)
+  }, [])
+
   const logout = useCallback(() => {
     localStorage.removeItem(AUTH_TOKEN_STORAGE_KEY)
     setToken(null)
@@ -99,9 +111,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
       isLoading,
       login,
       register,
+      updateProfile,
+      changePassword,
       logout,
     }),
-    [user, token, isLoading, login, register, logout],
+    [user, token, isLoading, login, register, updateProfile, changePassword, logout],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

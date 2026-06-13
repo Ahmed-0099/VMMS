@@ -22,6 +22,15 @@ export type RegisterPayload = {
   roleName: RoleName
 }
 
+export type UpdateProfilePayload = {
+  name: string
+}
+
+export type ChangePasswordPayload = {
+  currentPassword: string
+  newPassword: string
+}
+
 export type AuthResponse = {
   message: string
   token: string
@@ -35,4 +44,13 @@ export type RegisterResponse = {
 
 export type MeResponse = {
   user: AuthUser
+}
+
+export type UpdateProfileResponse = {
+  message: string
+  user: AuthUser
+}
+
+export type ChangePasswordResponse = {
+  message: string
 }

@@ -12,24 +12,14 @@ import { FuelLogs } from './pages/FuelLogs'
 import { Login } from './pages/Login'
 import { MaintenanceSchedules } from './pages/MaintenanceSchedules'
 import { MyVehicle } from './pages/MyVehicle'
-import { PlaceholderPage } from './pages/PlaceholderPage'
 import { Register } from './pages/Register'
 import { Reports } from './pages/Reports'
+import { Settings } from './pages/Settings'
 import { VehicleDetail } from './pages/VehicleDetail'
 import { Vehicles } from './pages/Vehicles'
 import { WorkOrderDetail } from './pages/WorkOrderDetail'
 import { WorkOrders } from './pages/WorkOrders'
-import type { RoleName } from './types/auth'
 import './App.css'
-
-const pages = [
-  { path: 'settings', title: 'Settings', description: 'Basic account and project settings.', roles: ['ADMIN', 'TECHNICIAN', 'DRIVER'] },
-] satisfies Array<{
-  path: string
-  title: string
-  description: string
-  roles: RoleName[]
-}>
 
 function AccessDenied() {
   return (
@@ -154,17 +144,14 @@ function App() {
               </RoleGuard>
             }
           />
-          {pages.map((page) => (
-            <Route
-              key={page.path}
-              path={page.path}
-              element={
-                <RoleGuard allowedRoles={page.roles} fallback={<AccessDenied />}>
-                  <PlaceholderPage title={page.title} description={page.description} />
-                </RoleGuard>
-              }
-            />
-          ))}
+          <Route
+            path="settings"
+            element={
+              <RoleGuard allowedRoles={['ADMIN', 'TECHNICIAN', 'DRIVER']} fallback={<AccessDenied />}>
+                <Settings />
+              </RoleGuard>
+            }
+          />
         </Route>
       </Route>
 

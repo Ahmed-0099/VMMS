@@ -583,6 +583,7 @@
 .fuel-log-form-grid,
 .maintenance-schedule-form-grid,
 .maintenance-work-order-grid,
+.settings-form-grid,
 .work-order-form-grid,
 .work-order-progress-grid {
   display: grid;
@@ -714,6 +715,7 @@
 .maintenance-schedule-toolbar .form-label,
 .maintenance-work-order-form .form-label,
 .report-toolbar .form-label,
+.settings-form .form-label,
 .work-order-form .form-label,
 .work-order-toolbar .form-label,
 .work-order-progress-grid .form-label {
@@ -756,6 +758,8 @@
 .maintenance-work-order-form .form-select,
 .report-toolbar .form-control,
 .report-toolbar .form-select,
+.settings-form .form-control,
+.settings-form .form-select,
 .work-order-form .form-control,
 .work-order-form .form-select,
 .work-order-toolbar .form-control,
@@ -800,6 +804,8 @@
 .maintenance-work-order-form .form-select:focus,
 .report-toolbar .form-control:focus,
 .report-toolbar .form-select:focus,
+.settings-form .form-control:focus,
+.settings-form .form-select:focus,
 .work-order-form .form-control:focus,
 .work-order-form .form-select:focus,
 .work-order-toolbar .form-control:focus,
@@ -928,6 +934,99 @@
   color: #123047;
   font-size: 1.1rem;
   font-weight: 800;
+}
+
+.settings-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  overflow: hidden;
+  border-color: #d8e7df;
+  background:
+    linear-gradient(135deg, rgba(15, 81, 50, 0.1), rgba(18, 48, 71, 0.04)),
+    #fbfefd;
+}
+
+.settings-identity {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.settings-avatar {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 8px;
+  color: #ffffff;
+  background: #123047;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.settings-identity h3 {
+  margin: 0.2rem 0 0;
+  color: #123047;
+  font-size: 1.65rem;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.settings-identity p {
+  margin: 0.2rem 0 0;
+  color: #657789;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.settings-access-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.45rem;
+  max-width: 520px;
+}
+
+.settings-access-list span {
+  padding: 0.35rem 0.65rem;
+  border: 1px solid #d8e7df;
+  border-radius: 999px;
+  color: #0f5132;
+  background: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.settings-summary-grid {
+  margin-bottom: 1.25rem;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.settings-panel {
+  min-width: 0;
+}
+
+.settings-form-grid-single {
+  grid-template-columns: 1fr;
+}
+
+.settings-form-wide {
+  grid-column: 1 / -1;
+}
+
+.settings-form textarea {
+  min-height: 86px;
+  resize: vertical;
 }
 
 .fault-row-high {
@@ -1528,6 +1627,174 @@
   }
 }
 
+[data-vmms-density="compact"] .content-area {
+  padding: 1rem;
+}
+
+[data-vmms-density="compact"] .topbar,
+[data-vmms-density="compact"] .module-panel,
+[data-vmms-density="compact"] .dashboard-panel,
+[data-vmms-density="compact"] .summary-card {
+  padding: 0.85rem;
+}
+
+[data-vmms-density="compact"] .sidebar {
+  padding: 1rem;
+}
+
+[data-vmms-density="compact"] .sidebar-link {
+  padding: 0.55rem 0.75rem;
+}
+
+[data-vmms-density="compact"] .vehicle-table tbody td,
+[data-vmms-density="compact"] .driver-table tbody td,
+[data-vmms-density="compact"] .assignment-table tbody td,
+[data-vmms-density="compact"] .compliance-document-table tbody td,
+[data-vmms-density="compact"] .fault-report-table tbody td,
+[data-vmms-density="compact"] .fuel-log-table tbody td,
+[data-vmms-density="compact"] .maintenance-schedule-table tbody td,
+[data-vmms-density="compact"] .report-table tbody td,
+[data-vmms-density="compact"] .work-order-table tbody td {
+  padding: 0.45rem 0.5rem;
+}
+
+[data-vmms-theme="dark"] body,
+[data-vmms-theme="dark"] .app-shell,
+[data-vmms-theme="dark"] .auth-loading {
+  background: #0f172a;
+}
+
+[data-vmms-theme="dark"] .app-shell {
+  background:
+    linear-gradient(180deg, rgba(32, 115, 92, 0.1), rgba(32, 115, 92, 0)),
+    #0f172a;
+}
+
+[data-vmms-theme="dark"] .sidebar,
+[data-vmms-theme="dark"] .topbar,
+[data-vmms-theme="dark"] .module-panel,
+[data-vmms-theme="dark"] .dashboard-panel,
+[data-vmms-theme="dark"] .summary-card,
+[data-vmms-theme="dark"] .attention-item,
+[data-vmms-theme="dark"] .vehicle-detail-grid div,
+[data-vmms-theme="dark"] .vehicle-count-grid div,
+[data-vmms-theme="dark"] .vehicle-assignment-strip,
+[data-vmms-theme="dark"] .my-vehicle-grid div,
+[data-vmms-theme="dark"] .fault-convert-context,
+[data-vmms-theme="dark"] .maintenance-work-order-context,
+[data-vmms-theme="dark"] .fuel-log-total-card,
+[data-vmms-theme="dark"] .fuel-log-assigned-strip div,
+[data-vmms-theme="dark"] .fault-report-assigned-strip div {
+  color: #d9e6f2;
+  border-color: #26384b;
+  background: #142234;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.24);
+}
+
+[data-vmms-theme="dark"] .settings-hero,
+[data-vmms-theme="dark"] .my-vehicle-hero,
+[data-vmms-theme="dark"] .report-tab.active {
+  border-color: #2f5f50;
+  background:
+    linear-gradient(135deg, rgba(32, 115, 92, 0.22), rgba(76, 111, 140, 0.1)),
+    #142234;
+}
+
+[data-vmms-theme="dark"] .sidebar-title,
+[data-vmms-theme="dark"] .topbar-title,
+[data-vmms-theme="dark"] .topbar-user-name,
+[data-vmms-theme="dark"] .page-title,
+[data-vmms-theme="dark"] .dashboard-title,
+[data-vmms-theme="dark"] .summary-value,
+[data-vmms-theme="dark"] .module-panel-header h3,
+[data-vmms-theme="dark"] .dashboard-panel-header h3,
+[data-vmms-theme="dark"] .settings-identity h3,
+[data-vmms-theme="dark"] .attention-label,
+[data-vmms-theme="dark"] .vehicle-main-text,
+[data-vmms-theme="dark"] .vehicle-detail-grid strong,
+[data-vmms-theme="dark"] .vehicle-count-grid strong,
+[data-vmms-theme="dark"] .vehicle-assignment-strip strong,
+[data-vmms-theme="dark"] .my-vehicle-grid strong,
+[data-vmms-theme="dark"] .my-vehicle-hero h3,
+[data-vmms-theme="dark"] .report-tab span {
+  color: #e8f1f8;
+}
+
+[data-vmms-theme="dark"] .dashboard-subtitle,
+[data-vmms-theme="dark"] .sidebar-subtitle,
+[data-vmms-theme="dark"] .summary-helper,
+[data-vmms-theme="dark"] .topbar-eyebrow,
+[data-vmms-theme="dark"] .settings-identity p,
+[data-vmms-theme="dark"] .attention-helper,
+[data-vmms-theme="dark"] .vehicle-muted-text,
+[data-vmms-theme="dark"] .report-tab small,
+[data-vmms-theme="dark"] .vehicle-table tbody td,
+[data-vmms-theme="dark"] .driver-table tbody td,
+[data-vmms-theme="dark"] .assignment-table tbody td,
+[data-vmms-theme="dark"] .compliance-document-table tbody td,
+[data-vmms-theme="dark"] .fault-report-table tbody td,
+[data-vmms-theme="dark"] .fuel-log-table tbody td,
+[data-vmms-theme="dark"] .maintenance-schedule-table tbody td,
+[data-vmms-theme="dark"] .report-table tbody td,
+[data-vmms-theme="dark"] .work-order-table tbody td {
+  color: #a7b7c8;
+}
+
+[data-vmms-theme="dark"] .vehicle-table thead th,
+[data-vmms-theme="dark"] .driver-table thead th,
+[data-vmms-theme="dark"] .assignment-table thead th,
+[data-vmms-theme="dark"] .compliance-document-table thead th,
+[data-vmms-theme="dark"] .fault-report-table thead th,
+[data-vmms-theme="dark"] .fuel-log-table thead th,
+[data-vmms-theme="dark"] .maintenance-schedule-table thead th,
+[data-vmms-theme="dark"] .report-table thead th,
+[data-vmms-theme="dark"] .work-order-table thead th {
+  color: #8ea4b8;
+  border-color: #26384b;
+}
+
+[data-vmms-theme="dark"] .form-control,
+[data-vmms-theme="dark"] .form-select {
+  color: #e8f1f8;
+  border-color: #314459;
+  background-color: #0f172a;
+}
+
+[data-vmms-theme="dark"] .form-label {
+  color: #d9e6f2;
+}
+
+[data-vmms-theme="dark"] .form-control::placeholder {
+  color: #7f91a4;
+}
+
+[data-vmms-theme="dark"] .form-control:read-only {
+  color: #a7b7c8;
+  background-color: #16273a;
+}
+
+[data-vmms-theme="dark"] .table {
+  --bs-table-bg: transparent;
+  --bs-table-color: #d9e6f2;
+  --bs-table-hover-bg: rgba(32, 115, 92, 0.12);
+}
+
+[data-vmms-theme="dark"] .sidebar-link {
+  color: #b4c3d3;
+}
+
+[data-vmms-theme="dark"] .sidebar-link:hover,
+[data-vmms-theme="dark"] .sidebar-link.active {
+  color: #dff3ea;
+  background: rgba(32, 115, 92, 0.18);
+}
+
+[data-vmms-theme="dark"] .settings-access-list span {
+  color: #dff3ea;
+  border-color: #2f5f50;
+  background: #0f172a;
+}
+
 .auth-loading {
   display: grid;
   min-height: 100vh;
@@ -1730,7 +1997,8 @@
   }
 
   .report-tabs,
-  .report-content-grid {
+  .report-content-grid,
+  .settings-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1749,11 +2017,12 @@
   .compliance-document-form-grid,
   .fault-convert-grid,
   .fault-report-form-grid,
-  .fuel-log-form-grid,
-  .maintenance-schedule-form-grid,
-  .maintenance-work-order-grid,
-  .work-order-form-grid,
-  .work-order-progress-grid,
+    .fuel-log-form-grid,
+    .maintenance-schedule-form-grid,
+    .maintenance-work-order-grid,
+    .settings-form-grid,
+    .work-order-form-grid,
+    .work-order-progress-grid,
   .vehicle-detail-grid,
   .vehicle-count-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1789,6 +2058,7 @@
   .fault-report-form-wide,
   .maintenance-schedule-form-wide,
   .maintenance-work-order-wide,
+  .settings-form-wide,
   .work-order-form-wide {
     grid-column: 1 / -1;
   }
@@ -1837,7 +2107,8 @@
   }
 
   .report-tabs,
-  .report-content-grid {
+  .report-content-grid,
+  .settings-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1856,11 +2127,12 @@
   .compliance-document-form-grid,
   .fault-convert-grid,
   .fault-report-form-grid,
-  .fuel-log-form-grid,
-  .maintenance-schedule-form-grid,
-  .maintenance-work-order-grid,
-  .work-order-form-grid,
-  .work-order-progress-grid,
+    .fuel-log-form-grid,
+    .maintenance-schedule-form-grid,
+    .maintenance-work-order-grid,
+    .settings-form-grid,
+    .work-order-form-grid,
+    .work-order-progress-grid,
   .vehicle-detail-grid,
   .vehicle-count-grid {
     grid-template-columns: 1fr;
@@ -1875,6 +2147,20 @@
     flex-direction: column;
   }
 
+  .settings-hero {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .settings-identity {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .settings-access-list {
+    justify-content: flex-start;
+  }
+
   .my-vehicle-hero h3 {
     font-size: 1.75rem;
   }
@@ -1882,10 +2168,11 @@
   .driver-form-wide,
   .driver-detail-wide,
   .fault-convert-wide,
-  .fault-report-form-wide,
-  .maintenance-schedule-form-wide,
-  .maintenance-work-order-wide,
-  .work-order-form-wide,
+    .fault-report-form-wide,
+    .maintenance-schedule-form-wide,
+    .maintenance-work-order-wide,
+    .settings-form-wide,
+    .work-order-form-wide,
   .work-order-detail-wide {
     grid-column: 1 / -1;
   }

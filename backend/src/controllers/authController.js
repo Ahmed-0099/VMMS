@@ -63,6 +63,40 @@ function validateLoginPayload(payload) {
   };
 }
 
+function validateProfilePayload(payload) {
+  const name = String(payload.name ?? "").trim();
+
+  if (!name) {
+    throw createHttpError(400, "Name is required");
+  }
+
+  if (name.length > 80) {
+    throw createHttpError(400, "Name must be 80 characters or less");
+  }
+
+  return {
+    name,
+  };
+}
+
+function validatePasswordPayload(payload) {
+  const currentPassword = String(payload.currentPassword ?? "");
+  const newPassword = String(payload.newPassword ?? "");
+
+  if (!currentPassword) {
+    throw createHttpError(400, "Current password is required");
+  }
+
+  if (newPassword.length < 6) {
+    throw createHttpError(400, "New password must be at least 6 characters");
+  }
+
+  return {
+    currentPassword,
+    newPassword,
+  };
+}
+
 async function register(req, res, next) {
   try {
     const { name, email, password, roleName } = validateRegisterPayload(req.body);
@@ -156,6 +190,59 @@ async function me(req, res, next) {
   }
 }
 
+async function updateProfile(req, res, next) {
+  try {
+    const { name } = validateProfilePayload(req.body);
+
+    const user = await prisma.user.update({
+      where: { id: req.user.userId },
+      data: { name },
+      include: { role: true },
+    });
+
+    res.json({
+      message: "Profile updated successfully",
+      user: toSafeUser(user),
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function updatePassword(req, res, next) {
+  try {
+    const { currentPassword, newPassword } = validatePasswordPayload(req.body);
+
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.userId },
+      include: { role: true },
+    });
+
+    if (!user) {
+      throw createHttpError(404, "User not found");
+    }
+
+    const passwordMatches = await comparePassword(currentPassword, user.passwordHash);
+
+    if (!passwordMatches) {
+      throw createHttpError(401, "Current password is incorrect");
+    }
+
+    const passwordHash = await hashPassword(newPassword);
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { passwordHash },
+    });
+
+    res.json({
+      message: "Password updated successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 function logout(req, res) {
   res.json({
     message: "Logout successful",
@@ -166,5 +253,7 @@ module.exports = {
   register,
   login,
   me,
+  updateProfile,
+  updatePassword,
   logout,
 };
