@@ -28,7 +28,8 @@ Scope: add fuel logs, list/filter fuel logs, calculate total amount, and support
 - Indexes:
   - `vehicleId`
   - `date`
-- Keep fraud detection and fuel card integration out of Phase 1.
+- Keep fraud detection and fuel card integration out of the current semester scope.
+- For Driver-role scoping, use the optional `Driver.userId` relation introduced in Driver CRUD.
 
 ## 2. BACKEND RELATED CHANGES
 
@@ -39,13 +40,19 @@ Scope: add fuel logs, list/filter fuel logs, calculate total amount, and support
       - `driverId`
       - `from`
       - `to`
+    - `ADMIN`: can filter all logs.
+    - `DRIVER`: force filters to the logged-in user's linked driver profile.
   - `createFuelLog(req, res, next)`
     - Validate vehicle exists.
     - Validate quantity and unit cost are positive.
     - Calculate `totalAmount = quantity * unitCost` on backend.
+    - `DRIVER`: resolve linked driver profile and active assignment; do not accept arbitrary `driverId`.
+    - `DRIVER`: only allow vehicle equal to their active assignment unless Admin creates on their behalf.
   - `updateFuelLog(req, res, next)`
     - Recalculate total amount if quantity/unit cost changes.
+    - `DRIVER`: update only own fuel logs.
   - `deleteFuelLog(req, res, next)`
+    - `DRIVER`: delete only own fuel logs if delete is allowed; otherwise prefer edit-only for driver records.
 
 - Create `backend/src/services/fuelLogService.js`.
   - `findFuelLogs(filters)`
@@ -65,8 +72,9 @@ Scope: add fuel logs, list/filter fuel logs, calculate total amount, and support
 
 - Role protection:
   - `ADMIN`: full access.
-  - `DRIVER`: create fuel logs, view own/assigned vehicle logs if implemented.
+  - `DRIVER`: create and view own fuel logs for assigned vehicle after `Driver.userId` and active assignment exist.
   - `TECHNICIAN`: no access needed.
+  - Never allow Driver users to submit logs for another driver or another vehicle.
 
 - Test in Postman:
   - Create fuel log.
@@ -102,6 +110,8 @@ Scope: add fuel logs, list/filter fuel logs, calculate total amount, and support
     - vehicle
     - date range
   - Fuel log table.
+  - Admin view: all logs, vehicle/date filters, driver column, edit/delete controls.
+  - Driver view: quick add form and own fuel history; vehicle should default to assigned vehicle and driver select should be hidden.
 
 - Create `frontend/src/components/fuelLogs/FuelLogForm.tsx`.
   - Vehicle select.
@@ -112,6 +122,7 @@ Scope: add fuel logs, list/filter fuel logs, calculate total amount, and support
   - Unit cost.
   - Odometer reading.
   - Show calculated total live.
+  - For Driver users, hide driver select and lock vehicle to assigned vehicle.
 
 - Create `frontend/src/components/fuelLogs/FuelLogTable.tsx`.
   - Columns:
@@ -135,3 +146,5 @@ Scope: add fuel logs, list/filter fuel logs, calculate total amount, and support
   - Total amount calculates live and backend confirms it.
   - Filters work.
   - Summary cards update after create/edit/delete.
+  - Driver can only create/view logs for their own assigned vehicle.
+  - Technician cannot access fuel log routes.

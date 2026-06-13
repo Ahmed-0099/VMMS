@@ -53,10 +53,14 @@ Scope: driver submits vehicle fault report, admin reviews it, and admin can conv
       - `urgency`
       - `vehicleId`
       - `driverId`
+    - `ADMIN`: can list all fault reports.
+    - `DRIVER`: can list only reports submitted by the logged-in user.
   - `createFaultReport(req, res, next)`
     - Validate vehicle exists.
     - Save description and urgency.
-    - If authenticated driver is linked later, set driver/reporter.
+    - Always set `reporterId = req.user.userId`.
+    - If authenticated Driver is linked through `Driver.userId`, set `driverId`.
+    - For Driver users, validate the selected vehicle is their active assignment before saving.
   - `updateFaultReportStatus(req, res, next)`
     - Admin can set `REVIEWED` or `CLOSED`.
   - `convertFaultReportToWorkOrder(req, res, next)`
@@ -80,9 +84,10 @@ Scope: driver submits vehicle fault report, admin reviews it, and admin can conv
   - Add `app.use("/api/fault-reports", faultReportRoutes);`
 
 - Role protection:
-  - `DRIVER`: create fault report.
+  - `DRIVER`: create fault report and view own submitted reports.
   - `ADMIN`: list, review, close, convert.
   - `TECHNICIAN`: view linked work order, not fault management.
+  - Never allow Driver users to review, close, convert, or browse all fault reports.
 
 - Test in Postman:
   - Create fault report.
@@ -113,7 +118,8 @@ Scope: driver submits vehicle fault report, admin reviews it, and admin can conv
 - Create `frontend/src/pages/FaultReports.tsx`.
   - Driver view:
     - submit fault report form
-    - own submitted reports if supported
+    - own submitted reports
+    - assigned vehicle should be preselected or the only available vehicle after assignments exist
   - Admin view:
     - fault report queue
     - filters by status and urgency
@@ -153,6 +159,8 @@ Scope: driver submits vehicle fault report, admin reviews it, and admin can conv
 
 - Acceptance checks:
   - Driver can submit fault report.
+  - Driver can see only their own submitted fault reports.
   - Admin can review report.
   - Admin can convert report to work order.
   - Converted report links to created work order.
+  - Technician cannot access fault management routes.

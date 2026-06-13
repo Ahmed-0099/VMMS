@@ -5,7 +5,7 @@ Source of truth:
 - `docs/VMMS_User_Features_and_Flows.md`
 - `docs/VMMS_Lab_Concepts_Tech_Stack_Guide.md`
 
-Scope: register, login, JWT session, bcrypt password hashing, basic role-based access for `ADMIN`, `TECHNICIAN`, and `DRIVER`. Do not implement email verification, password reset, Google login, Microsoft login, or MFA in Phase 1.
+Scope: register, login, JWT session, bcrypt password hashing, and role-based access for `ADMIN`, `TECHNICIAN`, and `DRIVER`. Do not implement email verification, password reset, Google login, Microsoft login, or MFA in the current semester scope.
 
 ## 1. DB RELATED CHANGES
 
@@ -84,6 +84,7 @@ npm run prisma:seed
 - Create `backend/src/middleware/roleMiddleware.js`.
   - Export `requireRole(...allowedRoles)`.
   - Return `403` if user role is not allowed.
+  - Use this middleware on every module route; frontend hidden links are not enough for RBAC.
 
 - Create `backend/src/utils/jwt.js`.
   - `signToken(user)` returns JWT with:
@@ -165,9 +166,9 @@ npm run prisma:seed
   - Show logged-in user name and role in the header area.
   - Add logout button.
   - Hide navigation items by role:
-    - `DRIVER`: fault reports, fuel logs, assigned vehicle-related pages.
-    - `TECHNICIAN`: work orders.
-    - `ADMIN`: all Phase 1 modules.
+    - `ADMIN`: dashboard and all admin modules.
+    - `TECHNICIAN`: dashboard and assigned work orders.
+    - `DRIVER`: dashboard, fault reports, fuel logs, and own assigned-vehicle flows after the driver profile link exists.
 
 - Premium UI requirements:
   - Login/register screens should look polished, not like raw Bootstrap examples.
@@ -183,3 +184,4 @@ npm run prisma:seed
   - Protected routes cannot open without login.
   - Logout clears session.
   - Sidebar adapts to role.
+  - Backend returns `403` for authenticated users who call a module endpoint outside their role.

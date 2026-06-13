@@ -5,13 +5,14 @@ Source of truth:
 - `docs/VMMS_User_Features_and_Flows.md`
 - `docs/VMMS_Lab_Concepts_Tech_Stack_Guide.md`
 
-Scope: add, list, view, edit, and delete/mark inactive drivers.
+Scope: Admin-managed driver records with add, list, view, edit, and delete/mark inactive. This step also prepares safe Driver-role scoping by optionally linking a `Driver` profile to one auth `User`.
 
 ## 1. DB RELATED CHANGES
 
 - Confirm `backend/prisma/schema.prisma` has `Driver`.
 - Required fields:
   - `id`
+  - `userId` optional after auth/profile linking
   - `fullName`
   - `cnic`
   - `licenseNumber`
@@ -26,10 +27,12 @@ Scope: add, list, view, edit, and delete/mark inactive drivers.
     - `ACTIVE`
     - `INACTIVE`
 - Relationships:
+  - `Driver` optionally belongs to one `User` account for Driver-role self-service.
   - `Driver` has many `VehicleAssignment`
   - `Driver` has many `FuelLog`
   - `Driver` has many `FaultReport`
 - Constraints/indexes:
+  - `userId` unique if provided.
   - `licenseNumber` unique.
   - `cnic` unique if provided.
   - index on `status`.
@@ -53,7 +56,9 @@ npm run prisma:generate
   - `createDriver(req, res, next)`
     - Validate required fields.
     - Check duplicate license number.
+    - If `userId` is provided, confirm that user exists, has role `DRIVER`, and is not already linked to another driver profile.
   - `updateDriver(req, res, next)`
+    - Enforce the same `userId` linking rules when changing linked user.
   - `deleteDriver(req, res, next)`
     - Prefer marking inactive if active assignments exist.
 
@@ -76,8 +81,9 @@ npm run prisma:generate
 
 - Role protection:
   - `ADMIN`: full access.
-  - `DRIVER`: no list access unless future profile support is added.
-  - `TECHNICIAN`: no access needed in Phase 1.
+  - `DRIVER`: no driver list access; may read own linked driver profile through a dedicated `/api/drivers/me` endpoint if implemented.
+  - `TECHNICIAN`: no access needed in the current semester scope.
+  - Never allow `DRIVER` or `TECHNICIAN` to create, edit, delete, or browse all driver records.
 
 - Test in Postman:
   - Create driver.
@@ -97,6 +103,7 @@ npm run prisma:generate
 - Create `frontend/src/services/driverService.ts`.
   - `getDrivers(filters)`
   - `getDriver(id)`
+  - `getMyDriverProfile()` if `/api/drivers/me` is implemented
   - `createDriver(values)`
   - `updateDriver(id, values)`
   - `deleteDriver(id)`
@@ -105,6 +112,7 @@ npm run prisma:generate
   - Manage list loading, search, filters, error, and reload.
 
 - Create `frontend/src/pages/Drivers.tsx`.
+  - Admin-only route.
   - Header with Add Driver action.
   - Search by name, CNIC, phone, or license number.
   - Filter by status.
@@ -142,6 +150,8 @@ npm run prisma:generate
 - Update `frontend/src/App.tsx`.
   - Route `/drivers`.
   - Route `/drivers/:id`.
+  - Wrap both routes with `RoleGuard` for `ADMIN` only.
+  - Driver self-profile should live under Settings or a future "My Vehicle" flow, not the admin driver table.
 
 - Premium UI requirements:
   - Driver profile should look like a clean operations record.
@@ -155,3 +165,5 @@ npm run prisma:generate
   - Search/filter works.
   - Edit updates backend and UI.
   - License expiry status is visible.
+  - Linked Driver user can only access their own profile endpoint if that endpoint is implemented.
+  - Non-admin users cannot open driver registry routes or call driver write APIs.

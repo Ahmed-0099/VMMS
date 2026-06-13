@@ -56,7 +56,10 @@ Scope: create work orders, assign technician, update status, add labor/cost/note
       - `priority`
       - `vehicleId`
       - `technicianId`
+    - If user is `TECHNICIAN`, ignore arbitrary `technicianId` query params and force `technicianId = req.user.userId`.
   - `getWorkOrderById(req, res, next)`
+    - Admin can read any work order.
+    - Technician can read only assigned work orders.
   - `createWorkOrder(req, res, next)`
   - `updateWorkOrder(req, res, next)`
   - `updateWorkOrderStatus(req, res, next)`
@@ -88,8 +91,9 @@ Scope: create work orders, assign technician, update status, add labor/cost/note
 
 - Role protection:
   - `ADMIN`: create, edit, assign, close.
-  - `TECHNICIAN`: view assigned work orders and update status/details.
+  - `TECHNICIAN`: view only assigned work orders, update status/details, add labor hours, cost, and completion notes.
   - `DRIVER`: no work order management access.
+  - Technician users must not reassign technicians, delete work orders, or see unassigned/all work orders.
 
 - Test in Postman:
   - Create work order.
@@ -123,6 +127,8 @@ Scope: create work orders, assign technician, update status, add labor/cost/note
   - Status tabs or segmented control.
   - Priority filter.
   - Work order table.
+  - Admin view: all work orders, create action, technician assignment controls.
+  - Technician view: assigned work orders only, no create/delete/reassign actions.
 
 - Create `frontend/src/pages/WorkOrderDetail.tsx`.
   - Detail view with status timeline.
@@ -151,6 +157,7 @@ Scope: create work orders, assign technician, update status, add labor/cost/note
 - Create `frontend/src/components/workOrders/WorkOrderStatusActions.tsx`.
   - Buttons/dropdown for status changes.
   - Hide actions based on role.
+  - Technician actions should be limited to assigned work order progress/completion updates.
 
 - Premium UI requirements:
   - Work orders should feel like an operations command center.
@@ -161,5 +168,7 @@ Scope: create work orders, assign technician, update status, add labor/cost/note
 - Acceptance checks:
   - Admin creates work order.
   - Technician can update assigned order.
+  - Technician cannot see or update another technician's order.
+  - Driver cannot access work order routes.
   - Status badges update correctly.
   - Completed work order captures labor/cost/notes.

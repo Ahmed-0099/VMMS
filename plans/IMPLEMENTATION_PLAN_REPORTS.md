@@ -5,11 +5,11 @@ Source of truth:
 - `docs/VMMS_User_Features_and_Flows.md`
 - `docs/VMMS_Lab_Concepts_Tech_Stack_Guide.md`
 
-Scope: simple Phase 1 reports for vehicles, fuel, work orders, and compliance. Do not build advanced executive analytics, PDF export, Excel export, accounting integration, or AI predictions.
+Scope: simple current-scope reports for vehicles, fuel, work orders, and compliance. Do not build advanced executive analytics, PDF export, Excel export, accounting integration, or AI predictions.
 
 ## 1. DB RELATED CHANGES
 
-- No new tables are required for Phase 1 reports.
+- No new tables are required for current-scope reports.
 - Reports should query existing tables:
   - `vehicles`
   - `drivers`
@@ -83,9 +83,10 @@ Scope: simple Phase 1 reports for vehicles, fuel, work orders, and compliance. D
   - out of service count
 
 - Role protection:
-  - `ADMIN`: report access.
-  - `TECHNICIAN`: optional work-order-only view.
-  - `DRIVER`: no full reports in Phase 1.
+  - `ADMIN`: full report access.
+  - `TECHNICIAN`: no full reports in the current app; assigned work-order stats belong on the Technician dashboard.
+  - `DRIVER`: no full reports in the current app; own fuel/fault activity belongs on Driver pages/dashboard.
+  - Protect every report endpoint with `requireRole("ADMIN")` unless a future scoped report is deliberately added.
 
 - Test in Postman:
   - Call each report endpoint.
@@ -112,6 +113,7 @@ Scope: simple Phase 1 reports for vehicles, fuel, work orders, and compliance. D
   - Return data, loading, error, reload.
 
 - Create `frontend/src/pages/Reports.tsx`.
+  - Admin-only route.
   - Report type tabs:
     - Vehicles
     - Fuel
@@ -139,7 +141,7 @@ Scope: simple Phase 1 reports for vehicles, fuel, work orders, and compliance. D
 - Optional CSV export:
   - Create `frontend/src/utils/exportCsv.ts`.
   - Export visible table rows only.
-  - Keep PDF/Excel export out of Phase 1.
+  - Keep PDF/Excel export out of the current semester scope.
 
 - Premium UI requirements:
   - Reports page should feel like a polished analytics dashboard.
@@ -154,3 +156,4 @@ Scope: simple Phase 1 reports for vehicles, fuel, work orders, and compliance. D
   - Summary cards update.
   - At least one chart renders.
   - Empty data does not break the UI.
+  - Technician and Driver users cannot access report routes or report APIs.

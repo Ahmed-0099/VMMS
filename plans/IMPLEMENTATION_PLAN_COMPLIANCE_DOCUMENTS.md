@@ -32,7 +32,7 @@ Scope: record vehicle compliance documents, track expiry dates, show status, and
   - `vehicleId`
   - `expiryDate`
   - `status`
-- Keep cloud storage, email reminders, SMS reminders, and approval workflow out of Phase 1.
+- Keep cloud storage, email reminders, SMS reminders, and approval workflow out of the current semester scope.
 
 ## 2. BACKEND RELATED CHANGES
 
@@ -87,7 +87,9 @@ npm install multer
 
 - Role protection:
   - `ADMIN`: full access.
-  - `DRIVER` and `TECHNICIAN`: no write access in Phase 1.
+  - `DRIVER` and `TECHNICIAN`: no write access in the current semester scope.
+  - Main `/compliance-documents` module should stay Admin-only.
+  - If document visibility is later exposed to Driver users, it must be read-only and scoped to the assigned vehicle.
 
 - Test in Postman:
   - Create valid document.
@@ -115,6 +117,7 @@ npm install multer
   - Reload after changes.
 
 - Create `frontend/src/pages/ComplianceDocuments.tsx`.
+  - Admin-only route.
   - Header with Add Document.
   - Summary cards:
     - valid
@@ -159,3 +162,4 @@ npm install multer
   - Status calculates correctly.
   - Dashboard count reflects expiring/expired documents.
   - Filters work.
+  - Non-admin users cannot access document management routes or write APIs.

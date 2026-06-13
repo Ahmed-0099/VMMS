@@ -32,7 +32,7 @@ Scope: create preventive maintenance schedule, show due schedules, and manually 
 - Indexes:
   - `vehicleId`
   - `status`
-- Do not implement automatic background work order generation in Phase 1.
+- Do not implement automatic background work order generation in the current semester scope.
 
 ## 2. BACKEND RELATED CHANGES
 
@@ -72,8 +72,9 @@ Scope: create preventive maintenance schedule, show due schedules, and manually 
 
 - Role protection:
   - `ADMIN`: full access.
-  - `TECHNICIAN`: read-only optional.
+  - `TECHNICIAN`: no standalone schedule management access in the current app; due assigned jobs should come through Work Orders and the Technician dashboard.
   - `DRIVER`: no access.
+  - Never allow Technician or Driver users to create, edit, delete, or convert schedules to work orders.
 
 - Test in Postman:
   - Create schedule.
@@ -102,6 +103,7 @@ Scope: create preventive maintenance schedule, show due schedules, and manually 
   - Reload after create/update/delete.
 
 - Create `frontend/src/pages/MaintenanceSchedules.tsx`.
+  - Admin-only route.
   - Header with Add Schedule.
   - Due soon summary cards.
   - Filters:
@@ -143,3 +145,4 @@ Scope: create preventive maintenance schedule, show due schedules, and manually 
   - Due status is visible.
   - Admin can create work order from schedule.
   - Dashboard due maintenance count updates.
+  - Non-admin users cannot access maintenance schedule management routes or write APIs.
