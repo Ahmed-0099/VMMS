@@ -5,7 +5,7 @@ Source of truth:
 - `docs/VMMS_User_Features_and_Flows.md`
 - `docs/VMMS_Lab_Concepts_Tech_Stack_Guide.md`
 
-Scope: premium dashboard shell, sidebar/topbar layout, summary cards, basic alerts, and starter API-driven dashboard counts.
+Scope: premium dashboard shell, sidebar/topbar layout, role-based summary cards, basic alerts, and API-driven dashboard counts.
 
 ## 1. DB RELATED CHANGES
 
@@ -26,8 +26,11 @@ Scope: premium dashboard shell, sidebar/topbar layout, summary cards, basic aler
   - `ComplianceDocument.expiryDate`
   - `FaultReport.status`
   - `MaintenanceSchedule.status`
-- Do not add real-time notifications or background jobs in Phase 1.
+- Do not add real-time notifications or background jobs in the current semester scope.
 - Dashboard alerts should be calculated from existing records.
+- No new user-driver linking table is required in this step.
+  - Technician metrics can safely use `WorkOrder.technicianId`.
+  - Driver metrics can safely use `FaultReport.reporterId` until Driver CRUD/assignment adds deeper profile links.
 
 ## 2. BACKEND RELATED CHANGES
 
@@ -50,9 +53,34 @@ Scope: premium dashboard shell, sidebar/topbar layout, summary cards, basic aler
   - Export `getSummary(req, res, next)`.
 
 - Create `backend/src/services/dashboardService.js`.
-  - `getDashboardSummary()`.
+  - `getDashboardSummary(user)`.
   - Use Prisma `count`, `aggregate`, and date filtering.
   - Calculate current month using JavaScript Date.
+  - Return different metrics according to authenticated role:
+    - Admin/Fleet Manager:
+      - total vehicles
+      - active vehicles
+      - vehicles in maintenance
+      - total drivers
+      - open work orders
+      - completed work orders
+      - fuel cost this month
+      - expiring/expired documents
+      - new fault reports
+      - due maintenance schedules
+    - Technician:
+      - assigned work orders
+      - open assigned work orders
+      - in-progress work orders
+      - completed assigned work orders
+      - urgent assigned work orders
+      - due assigned work orders
+    - Driver:
+      - submitted fault reports
+      - open fault reports
+      - reviewed fault reports
+      - converted fault reports
+      - closed fault reports
 
 - Update `backend/src/routes/dashboardRoutes.js`.
   - Import controller.
@@ -66,22 +94,66 @@ Scope: premium dashboard shell, sidebar/topbar layout, summary cards, basic aler
 
 ```js
 {
-  totalVehicles,
-  activeVehicles,
-  vehiclesInMaintenance,
-  totalDrivers,
-  openWorkOrders,
-  completedWorkOrders,
-  fuelCostThisMonth,
-  expiringDocuments,
-  newFaultReports,
-  dueMaintenanceSchedules
+  role,
+  metrics
+}
+```
+
+Admin example:
+
+```js
+{
+  role: "ADMIN",
+  metrics: {
+    totalVehicles,
+    activeVehicles,
+    vehiclesInMaintenance,
+    totalDrivers,
+    openWorkOrders,
+    completedWorkOrders,
+    fuelCostThisMonth,
+    expiringDocuments,
+    newFaultReports,
+    dueMaintenanceSchedules
+  }
+}
+```
+
+Technician example:
+
+```js
+{
+  role: "TECHNICIAN",
+  metrics: {
+    assignedWorkOrders,
+    openAssignedWorkOrders,
+    inProgressWorkOrders,
+    completedAssignedWorkOrders,
+    urgentAssignedWorkOrders,
+    dueAssignedWorkOrders
+  }
+}
+```
+
+Driver example:
+
+```js
+{
+  role: "DRIVER",
+  metrics: {
+    submittedFaultReports,
+    openFaultReports,
+    reviewedFaultReports,
+    convertedFaultReports,
+    closedFaultReports
+  }
 }
 ```
 
 - Test in Postman:
-  - Empty database should return zeros.
+  - Empty database should return role-specific zero metrics.
   - Seeded records should update counts.
+  - Admin, Technician, and Driver tokens should receive different dashboard payloads.
 
 ## 3. FRONTEND RELATED CHANGES
 
@@ -135,13 +207,16 @@ Scope: premium dashboard shell, sidebar/topbar layout, summary cards, basic aler
 
 - Update `frontend/src/pages/Dashboard.tsx`.
   - Replace static cards with API-driven cards.
+  - Render different dashboard cards and page copy by role:
+    - Admin: full fleet health overview.
+    - Technician: assigned maintenance queue.
+    - Driver: own fault report activity.
   - Show skeleton/loading states.
   - Show error alert if backend is unavailable.
-  - Add a compact "Attention Needed" section:
-    - expiring documents
-    - due maintenance
-    - new fault reports
-    - open work orders
+  - Add a compact "Attention Needed" section with role-specific alerts:
+    - Admin: expiring documents, due maintenance, new fault reports, open work orders.
+    - Technician: urgent assigned jobs, due assigned jobs, open assigned jobs.
+    - Driver: open fault reports, reviewed reports, converted reports.
 
 - Create/update `frontend/src/App.css`.
   - Premium visual direction:
@@ -153,6 +228,8 @@ Scope: premium dashboard shell, sidebar/topbar layout, summary cards, basic aler
     - responsive grid
   - Avoid loud gradients and oversized hero sections.
   - Keep admin dashboard dense but readable.
+  - Ensure the sidebar white panel covers the complete navigation list, including Reports and Settings.
+  - Sidebar should use full-height styling on desktop and horizontal scrolling navigation on tablet/mobile.
 
 - Optional chart:
   - Create `frontend/src/components/charts/WorkOrderStatusChart.tsx`.
@@ -161,6 +238,11 @@ Scope: premium dashboard shell, sidebar/topbar layout, summary cards, basic aler
 - Acceptance checks:
   - Dashboard looks polished on desktop and mobile.
   - Summary cards load from backend.
+  - Dashboard content is role-based:
+    - Admin does not share the exact same dashboard cards with Technician and Driver.
+    - Technician sees maintenance-focused metrics.
+    - Driver sees driver/fault-report-focused metrics.
   - Empty database still displays professionally.
   - Sidebar active states work.
   - No text overflow in cards or navigation.
+  - Sidebar background includes the full menu down to Settings.

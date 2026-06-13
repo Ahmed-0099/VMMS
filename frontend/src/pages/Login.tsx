@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
@@ -22,13 +22,6 @@ export function Login() {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const destination = state?.from?.pathname ?? '/dashboard'
-
-  useEffect(() => {
-    if (state?.registered) {
-      setEmail('')
-      setPassword('')
-    }
-  }, [state?.registered])
 
   if (!isLoading && isAuthenticated) {
     return <Navigate to="/dashboard" replace />
